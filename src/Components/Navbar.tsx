@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLogout, userData }) => {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-            <img src={Logo} alt="Parihar India" className="h-32 w-auto" />
+            <img src={Logo} alt="Parihar India" className="h-7 w-auto" />
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
             <Link

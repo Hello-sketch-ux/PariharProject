@@ -25,12 +25,12 @@ const Feedback: React.FC = () => {
   };
 
   return (
-    <div className="bg-black w-full min-h-screen px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
           <MessageSquare className="mx-auto h-12 w-12 text-green-500" />
-          <h2 className="mt-2 text-3xl font-bold text-white">We Value Your Feedback</h2>
-          <p className="mt-2 text-lg text-white">
+          <h2 className="mt-2 text-3xl font-bold text-gray-900">We Value Your Feedback</h2>
+          <p className="mt-2 text-lg text-gray-600">
             Your feedback helps us improve our products and services
           </p>
         </div>
@@ -53,12 +53,12 @@ const Feedback: React.FC = () => {
           </div>
         ) : null}
 
-        <div className="bg-gray-900 shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-white">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                     Your Name
                   </label>
                   <div className="mt-1">
@@ -69,14 +69,13 @@ const Feedback: React.FC = () => {
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-white rounded-mf text-white"
-                      placeholder='John Doe'
+                      className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-white">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                     Email Address
                   </label>
                   <div className="mt-1">
@@ -87,15 +86,14 @@ const Feedback: React.FC = () => {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md text-white"
-                      placeholder='abc@example.com'
+                      className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white">
+                <label className="block text-sm font-medium text-gray-700">
                   Rate Your Experience
                 </label>
                 <div className="mt-1 flex items-center">
@@ -118,14 +116,14 @@ const Feedback: React.FC = () => {
                       </svg>
                     </button>
                   ))}
-                  <span className="ml-2 text-sm text-gray-300">
+                  <span className="ml-2 text-sm text-gray-500">
                     {rating > 0 ? `${rating} out of 5 stars` : 'Select a rating'}
                   </span>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-white">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
                   Your Feedback
                 </label>
                 <div className="mt-1">
@@ -136,7 +134,7 @@ const Feedback: React.FC = () => {
                     required
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md text-white"
+                    className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="Please share your thoughts, suggestions, or concerns..."
                   ></textarea>
                 </div>
@@ -155,14 +153,14 @@ const Feedback: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-10 bg-gray-900 shadow overflow-hidden sm:rounded-lg">
+        <div className="mt-10 bg-white shadow overflow-hidden sm:rounded-lg">
           <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-white">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
               Why Your Feedback Matters
             </h3>
           </div>
           <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
-            <div className="prose prose-green max-w-none text-white">
+            <div className="prose prose-green max-w-none">
               <p>
                 At Parihar India, we are committed to providing the best possible experience for our customers. Your feedback helps us:
               </p>

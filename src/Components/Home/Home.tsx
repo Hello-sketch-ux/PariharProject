@@ -28,7 +28,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
           scrolling ? "bg-black/70 backdrop-blur-md shadow-md" : "bg-transparent"
         }`}
       >
-        <img src={Logo} alt="Parihar India" className="h-32 w-auto" />
+        <img src={Logo} alt="Parihar India" className="h-7 w-auto" />
         <div className="ml-auto flex space-x-8">
           <Link to="/" className="text-white text-sm font-semibold hover:text-gray-300 transition">
             HOME
