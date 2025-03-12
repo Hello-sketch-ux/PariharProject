@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Truck, Users, Star, Package } from 'lucide-react';
+import { Truck, Users, Star, Package } from 'lucide-react';
 
 interface UserData {
   firstName: string;
