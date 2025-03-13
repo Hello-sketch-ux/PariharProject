@@ -5,7 +5,7 @@ function Cards({image , heading , paragraph}){
     return(
         <div className="mainbox"> 
         
-            <div className="image">
+            <div className="cardImage">
                  <img className="Logo" src={image} />
             </div>    
 

@@ -16,6 +16,8 @@ import Subscribe from "./subscribe";
 import Footer from "./Footer.jsx";
 import SustainableGoals from "./SustainableGoals.jsx";
 import Cards from "./Card.jsx";
+import vision from "./vision.png";
+import mission from "./mission.png";
 
 
 interface HomeProps {
@@ -96,8 +98,8 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
         <div className="mb-[6rem] my-[2rem]">
           <Heading content="about Parihar India" color="green" underline={true}></Heading>
           <div className="flex justify-center gap-[2rem] items-cnter">
-              <Cards image={crossContamination} heading="Our Vision" paragraph="At Parihar India, we believe that true health goes beyond the mere absence of disease—it’s the harmony of complete physical, mental, and social well-being. Our mission is to empower individuals to achieve holistic health through our comprehensive services, innovative wellness programs, and patient education initiatives. By fostering a cu"></Cards>
-              <Cards image={crossContamination} heading="Our Vision" paragraph="At Parihar India, we believe that true health goes beyond the mere absence of disease—it’s the harmony of complete physical, mental, and social well-being. Our mission is to empower individuals to achieve holistic health through our comprehensive services, innovative wellness programs, and patient education initiatives. By fostering a cu"></Cards>
+              <Cards image={vision} heading="Our Vision" paragraph="At Parihar India, we believe that true health goes beyond the mere absence of disease—it’s the harmony of complete physical, mental, and social well-being. Our mission is to empower individuals to achieve holistic health through our comprehensive services, innovative wellness programs, and patient education initiatives. By fostering a cu"></Cards>
+              <Cards image={mission} heading="Our Mission" paragraph="At Parihar, we are committed to enhancing hygiene and comfort through innovative toilet seat covers. Our mission is to revolutionize restroom hygiene by offering cutting-edge solutions that prioritize cleanliness, convenience, and user comfort. We are dedicated to making every restroom experience healthier and more pleasant for all, whil"></Cards>
           </div>
         </div>
 
