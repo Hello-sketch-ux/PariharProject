@@ -24,6 +24,13 @@ interface HomeProps {
   isLoggedIn: boolean;
 }
 
+const predefinedQA: { [key: string]: string } = {
+  "What are your products made of?": "Our toilet seat covers are made from non-porous, oxo-biodegradable, and 100% recyclable materials, ensuring hygiene and sustainability.",
+  "How do I use the product?": "Simply place the cover on the toilet seat, use it, and dispose of it in a dry waste bin after use. It provides a protective barrier against germs.",
+  "Are products eco-friendly?": "Yes! Our products are oxo-biodegradable and 100% recyclable, reducing environmental impact while promoting public hygiene.",
+  "How does restroom locator work?": "Our app helps you find clean, Parihar-certified restrooms near you using real-time location tracking and user reviews.",
+};
+
 const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
   const [scrolling, setScrolling] = useState(false);
   const navigate = useNavigate();
@@ -37,6 +44,24 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleSend = () => {
+    if (!inputMessage.trim()) return;
+
+    // Add user message
+    setMessages(prev => [...prev, { text: inputMessage, isBot: false }]);
+
+    // Find response
+    let botResponse = predefinedQA[inputMessage] || 
+      "I apologize, but I don't have specific information about that. Please contact our customer support for more details.";
+
+    // Add bot response with a slight delay
+    setTimeout(() => {
+      setMessages(prev => [...prev, { text: botResponse, isBot: true }]);
+    }, 500);
+
+    setInputMessage("");
+  };
 
   return (
     <div className="relative min-h-screen bg-[#f5f5f5] flex flex-col items-center justify-center text-center overflow-x-hidden w-full">
