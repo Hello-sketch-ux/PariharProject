@@ -1,0 +1,88 @@
+.problem-solution-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:4rem;
+    padding: 2rem;
+    margin-top: 4rem;
+    margin-bottom: 5rem;
+}
+
+.card-image
+{
+    max-width:400px;
+    aspect-ratio: square;
+}
+
+.image-design
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: square;
+}
+
+.content-design
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 550px;
+    text-align: center;
+    gap: 2rem;
+    align-items:center;
+}
+
+.ProblemSolutionHeading{
+    font-size: 2.25rem;
+    color: #07ae7c;
+    font-family:"Poppins", "Arial", sans-serif;
+    letter-spacing: 1px;
+    font-weight: 50;
+}
+
+.ProblemSolutionContent
+{
+    font-size: 18px;
+    color: rgb(8, 8, 8);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+
+@media only screen and (max-width:350px) {
+
+    .problem-solution-card{
+        flex-wrap: wrap;
+        padding: 2rem;
+    }
+    
+}
+
+@media only screen and (max-width: 900px) {
+
+    .card-image
+    {
+        max-width: 350px;
+    }
+    
+}
+
+@media only screen and (max-width: 825px) {
+
+    .problem-solution-card{
+        flex-wrap: wrap;
+    }
+    .problem-solution-card-right{
+        flex-direction: column-reverse;
+    }
+    
+}
+
+@media only screen and (max-width:500px)
+{
+    .problem-solution-card{
+        gap: 2rem;
+    }
+}
+
+
