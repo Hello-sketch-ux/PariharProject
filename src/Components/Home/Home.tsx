@@ -83,9 +83,86 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
       </nav>
 
       <img src={Image} alt="Parihar India Logo" className="w-full h-screen object-cover" />
-      <button className="fixed bottom-6 right-6 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition">
-        💬
+      {/* ChatBot Button */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-6 right-6 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition z-50"
+      >
+        <MessageSquare size={24} />
       </button>
+
+      {/* ChatBot Popup */}
+      {isOpen && (
+        <div className="fixed bottom-24 right-6 w-96 bg-white rounded-lg shadow-xl z-50">
+          {/* Chat Header */}
+          <div className="flex items-center justify-between bg-green-500 p-4 rounded-t-lg">
+            <h3 className="text-white font-semibold">Parihar India Support</h3>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="text-white hover:text-gray-200"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          {/* Chat Messages */}
+          <div className="h-96 overflow-y-auto p-4 space-y-4">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
+
+              >
+                <div
+                  className={`max-w-[80%] p-3 rounded-lg ${
+                    message.isBot
+                      ? 'bg-gray-100 text-gray-800'
+                      : 'bg-green-500 text-white'
+                  }`}
+                >
+                  {message.text}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Chat Input */}
+          <div className="p-4 border-t">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Type your message..."
+                className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+              <button
+                onClick={handleSend}
+                className="bg-green-500 text-white p-2 rounded-lg hover:bg-green-600"
+              >
+                <Send size={20} />
+              </button>
+            </div>
+
+            {/* Suggested Questions */}
+            <div className="mt-2 space-y-1">
+              {Object.keys(predefinedQA).map((question) => (
+                <button
+                  key={question}
+                  onClick={() => {
+                    setInputMessage(question);
+                    handleSend();
+                  }}
+                  className="text-left text-sm text-gray-600 hover:text-green-500 block"
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div>
         {/* About section */}
