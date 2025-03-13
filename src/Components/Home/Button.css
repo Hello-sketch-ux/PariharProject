@@ -1,0 +1,25 @@
+.button-wrapper
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    margin: 1rem;
+    margin-bottom: 5rem;
+}
+
+.button-design
+{
+    padding: 1rem;
+    margin: 1rem;
+    width: 70%;
+    background: #07ae7c;
+    text-align:center;
+    text-transform:uppercase;
+    font-weight: 600;
+    border-radius: 3px;
+}
+
+.button-design:hover{
+    background-color: #0acf94;
+}
