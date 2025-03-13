@@ -14,7 +14,8 @@ import newspaperCuttings from "./newspaperCuttings.png";
 import ContactUs from "./contactUs.jsx";
 import Subscribe from "./subscribe";
 import Footer from "./Footer.jsx";
-import SustainableGoals from "./SustainableGoals.jsx"
+import SustainableGoals from "./SustainableGoals.jsx";
+import Cards from "./Card.jsx";
 
 
 interface HomeProps {
@@ -89,6 +90,15 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
         <div>
           <Heading content="about parihar" color="green" underline={true}></Heading>
           <ProblemSolutionCard heading="Innovative Healthcare and Hygiene Products" imagePosition="left" content="Parihar India offers a practical solution for public restroom hygiene with its custom-designed toilet seat cover. Derived from the Sanskrit word Parihar meaning to remove difficulty, the cover fits securely on any seat, creating a protective barrier for cleanliness and safety. Focused on ease and personal hygiene, Parihar India aims to improve everyday restroom experiences."  imageUrl={healthcare} ></ProblemSolutionCard>
+        </div>
+
+        {/* About section */}
+        <div className="mb-[6rem] my-[2rem]">
+          <Heading content="about Parihar India" color="green" underline={true}></Heading>
+          <div className="flex justify-center gap-[2rem] items-cnter">
+              <Cards image={crossContamination} heading="Our Vision" paragraph="At Parihar India, we believe that true health goes beyond the mere absence of disease—it’s the harmony of complete physical, mental, and social well-being. Our mission is to empower individuals to achieve holistic health through our comprehensive services, innovative wellness programs, and patient education initiatives. By fostering a cu"></Cards>
+              <Cards image={crossContamination} heading="Our Vision" paragraph="At Parihar India, we believe that true health goes beyond the mere absence of disease—it’s the harmony of complete physical, mental, and social well-being. Our mission is to empower individuals to achieve holistic health through our comprehensive services, innovative wellness programs, and patient education initiatives. By fostering a cu"></Cards>
+          </div>
         </div>
 
         <SustainableGoals/>
