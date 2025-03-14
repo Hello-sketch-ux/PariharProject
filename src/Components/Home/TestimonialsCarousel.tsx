@@ -15,7 +15,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: "Dr. Nileshma Pandey",
     role: "Gynaecologist",
-    image: "dist/assets/nileshma.jpg",
+    image: "src/assets/nileshma.jpg",
     rating: 5,
     comment: "Various patients and their relatives contact UTIs just by using the public restrooms at hospitals and path labs, through this product clean restrooms can be spotted and such diseases can be prevented"
   },
@@ -23,7 +23,7 @@ const testimonials: Testimonial[] = [
     id: 2,
     name: "Dr. Aishwarya",
     role: "Gynaecologist, RML",
-    image: "dist/assets/aishwarya.jpg",
+    image: "src/assets/aishwarya.jpg",
     rating: 5,
     comment: "Product is great for our personal use as using washrooms in hospitals can lead to various infections and UTIs and this can prevent those."
   },
@@ -31,7 +31,7 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: "Ms. Priyanka",
     role: "Teacher",
-    image: "dist/assets/priyanka.jpg",
+    image: "src/assets/priyanka.jpg",
     rating: 5,
     comment: "Budget friendly and easily accessible"
   },
@@ -39,7 +39,7 @@ const testimonials: Testimonial[] = [
     id: 4,
     name: "Ms. Rashmi",
     role: "Teacher",
-    image: "dist/assets/rashmi.jpg",
+    image: "src/assets/rashmi.jpg",
     rating: 5,
     comment: "Highly recommending, find clean restroom will be absolute help during travelling"
   },
@@ -47,7 +47,7 @@ const testimonials: Testimonial[] = [
     id: 5,
     name: "Ms. Meenakshi",
     role: "Teacher",
-    image: "dist/assets/meenakshi.jpg",
+    image: "src/assets/meenakshi.jpg",
     rating: 5,
     comment: "Compact size, easy to use."
   },
@@ -55,7 +55,7 @@ const testimonials: Testimonial[] = [
     id: 6,
     name: "Ms. Ananya",
     role: "College Student",
-    image: "dist/assets/ananya.jpg",
+    image: "src/assets/ananya.jpg",
     rating: 5,
     comment: "Game changer, helped preventing UTIs and other issues"
   },
@@ -63,7 +63,7 @@ const testimonials: Testimonial[] = [
     id: 7,
     name: "Ms. Gurmeet",
     role: "Teacher",
-    image: "dist/assets/gurmeet.jpg",
+    image: "src/assets/gurmeet.jpg",
     rating: 5,
     comment: "Use this for better hygiene, loved the product"
   },
@@ -71,7 +71,7 @@ const testimonials: Testimonial[] = [
     id: 8,
     name: "Ms. Nupur",
     role: "Teacher",
-    image: "dist/assets/nupur.jpg",
+    image: "src/assets/nupur.jpg",
     rating: 5,
     comment: "Keeps safe from allergies and gives the satisfaction of using a clean washroom."
   },
@@ -79,7 +79,7 @@ const testimonials: Testimonial[] = [
     id: 9,
     name: "Ms. Nitu",
     role: "Teacher",
-    image: "dist/assets/nitu.jpg",
+    image: "src/assets/nitu.jpg",
     rating: 5,
     comment: "Every female must try it once and they will use it again and again."
   },
@@ -87,7 +87,7 @@ const testimonials: Testimonial[] = [
     id: 10,
     name: "Ms. Sanmati",
     role: "Teacher",
-    image: "dist/assets/sanmati.jpg",
+    image: "src/assets/sanmati.jpg",
     rating: 5,
     comment: "Easy to carry and use, highly recommended being a working woman."
   },
@@ -95,7 +95,7 @@ const testimonials: Testimonial[] = [
     id: 11,
     name: "Ms. Riddhi",
     role: "College Student",
-    image: "dist/assets/ridhi.jpg",
+    image: "src/assets/ridhi.jpg",
     rating: 5,
     comment: "Amazing solution for all the hygiene issues."
   },
@@ -103,7 +103,7 @@ const testimonials: Testimonial[] = [
     id: 12,
     name: "Ms. Shubhangi",
     role: "Lawyer",
-    image: "dist/assets/subhangi.jpg",
+    image: "src/assets/subhangi.jpg",
     rating: 5,
     comment: "Better than other products available in the market."
   },
@@ -111,7 +111,7 @@ const testimonials: Testimonial[] = [
     id: 13,
     name: "Ms. Kalpana",
     role: "Teacher",
-    image: "dist/assets/kalpana.jpg",
+    image: "src/assets/kalpana.jpg",
     rating: 5,
     comment: "Perfect solution to prevent UTIs and related problems."
   },
@@ -119,7 +119,7 @@ const testimonials: Testimonial[] = [
     id: 14,
     name: "Ms. Purva",
     role: "College Student",
-    image: "dist/assets/purva.jpg",
+    image: "src/assets/purva.jpg",
     rating: 5,
     comment: "All the issues related to a public washroom are resolved, really liked the product."
   }
