@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User } from "lucide-react"; // Import Lucide User Icon
-import { X as CloseIcon, MessageSquare, Send } from 'lucide-react';
+import { User } from "lucide-react";
+import { X as CloseIcon, MessageSquare, Send } from "lucide-react";
+import Fuse from "fuse.js";
 import Image from "./logo.png";
 import Logo from "./Parihar_logo.png";
 import Heading from "./Heading.js";
@@ -25,12 +26,19 @@ interface HomeProps {
   isLoggedIn: boolean;
 }
 
-const predefinedQA: { [key: string]: string } = {
-  "What are your products made of?": "Our toilet seat covers are made from non-porous, oxo-biodegradable, and 100% recyclable materials, ensuring hygiene and sustainability.",
-  "How do I use the product?": "Simply place the cover on the toilet seat, use it, and dispose of it in a dry waste bin after use. It provides a protective barrier against germs.",
-  "Are products eco-friendly?": "Yes! Our products are oxo-biodegradable and 100% recyclable, reducing environmental impact while promoting public hygiene.",
-  "How does restroom locator work?": "Our app helps you find clean, Parihar-certified restrooms near you using real-time location tracking and user reviews.",
-};
+const predefinedQA = [
+  { question: "What are your products made of?", answer: "Our toilet seat covers are made from non-porous, oxo-biodegradable, and 100% recyclable materials, ensuring hygiene and sustainability." },
+  { question: "How do I use the product?", answer: "Simply place the cover on the toilet seat, use it, and dispose of it in a dry waste bin after use. It provides a protective barrier against germs." },
+  { question: "Are products eco-friendly?", answer: "Yes! Our products are oxo-biodegradable and 100% recyclable, reducing environmental impact while promoting public hygiene." },
+  { question: "How does restroom locator work?", answer: "Our app helps you find clean, Parihar-certified restrooms near you using real-time location tracking and user reviews." }
+];
+
+// 🔹 Fuse.js Configuration
+const fuse = new Fuse(predefinedQA, {
+  keys: ["question"],
+  threshold: 0.3, // Lower value = more strict matching, Higher = more flexible matching
+  includeScore: true
+});
 
 const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
   const [scrolling, setScrolling] = useState(false);
@@ -52,43 +60,64 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
   const handleSend = () => {
     if (!inputMessage.trim()) return;
 
-    // Add user message
+    const userMessage = inputMessage.trim().toLowerCase();
+    console.log("User Message:", userMessage);
+
     setMessages(prev => [...prev, { text: inputMessage, isBot: false }]);
 
-    // Find response
-    let botResponse =
-      predefinedQA[inputMessage] ||
-      "I apologize, but I don't have specific information about that. Please contact our customer support for more details.";
+    // 🔹 Use Fuse.js to find the best match
+    const result = fuse.search(userMessage);
 
-    // Add bot response with a slight delay
+    const botResponse = result.length > 0 
+      ? result[0].item.answer 
+      : "I apologize, but I don't have specific information about that. Please contact our customer support for more details.";
+
     setTimeout(() => {
       setMessages(prev => [...prev, { text: botResponse, isBot: true }]);
     }, 500);
 
     setInputMessage("");
   };
-
+  
   return (
     <div className="relative min-h-screen bg-[#f5f5f5] flex flex-col items-center justify-center text-center overflow-x-hidden w-full">
       <nav
-        className={`fixed top-0 left-0 w-full flex items-center px-6 lg:px-16 py-4 h-16 transition-all duration-300 z-50 ${scrolling ? "bg-black/70 backdrop-blur-md shadow-md" : "bg-transparent"
-          }`}
+        className={`fixed top-0 left-0 w-full flex items-center px-6 lg:px-16 py-4 h-16 transition-all duration-300 z-50 ${
+          scrolling
+            ? "bg-black/70 backdrop-blur-md shadow-md"
+            : "bg-transparent"
+        }`}
       >
         <img src={Logo} alt="Parihar India" className="h-7 w-auto" />
         <div className="ml-auto flex space-x-8">
-          <Link to="/" className="text-white text-sm font-semibold hover:text-gray-300 transition">
+          <Link
+            to="/"
+            className="text-white text-sm font-semibold hover:text-gray-300 transition"
+          >
             HOME
           </Link>
-          <Link to="/shop" className="text-white text-sm font-semibold hover:text-gray-300 transition">
+          <Link
+            to="/shop"
+            className="text-white text-sm font-semibold hover:text-gray-300 transition"
+          >
             SHOP
           </Link>
-          <Link to="/about" className="text-white text-sm font-semibold hover:text-gray-300 transition">
+          <Link
+            to="/about"
+            className="text-white text-sm font-semibold hover:text-gray-300 transition"
+          >
             ABOUT
           </Link>
-          <Link to="/contact" className="text-white text-sm font-semibold hover:text-gray-300 transition">
+          <Link
+            to="/contact"
+            className="text-white text-sm font-semibold hover:text-gray-300 transition"
+          >
             CONTACT US
           </Link>
-          <Link to="/restroom-finder" className="text-white text-sm font-semibold hover:text-gray-300 transition">
+          <Link
+            to="/restroom-finder"
+            className="text-white text-sm font-semibold hover:text-gray-300 transition"
+          >
             RESTROOM FINDER
           </Link>
           <div className="text-white">|</div>
@@ -111,7 +140,11 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
         )}
       </nav>
 
-      <img src={Image} alt="Parihar India Logo" className="w-full h-screen object-cover" />
+      <img
+        src={Image}
+        alt="Parihar India Logo"
+        className="w-full h-screen object-cover"
+      />
 
       <button
         onClick={() => setIsOpen(true)}
@@ -135,10 +168,18 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
           <div className="h-96 overflow-y-auto p-4 space-y-4">
             {messages.map((message, index) => (
-              <div key={index} className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}>
+              <div
+                key={index}
+                className={`flex ${
+                  message.isBot ? "justify-start" : "justify-end"
+                }`}
+              >
                 <div
-                  className={`max-w-[80%] p-3 rounded-lg ${message.isBot ? "bg-gray-100 text-gray-800" : "bg-green-500 text-white"
-                    }`}
+                  className={`max-w-[80%] p-3 rounded-lg ${
+                    message.isBot
+                      ? "bg-gray-100 text-gray-800"
+                      : "bg-green-500 text-white"
+                  }`}
                 >
                   {message.text}
                 </div>
@@ -162,20 +203,20 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
               >
                 <Send size={20} />
               </button>
-
             </div>
 
             <div className="mt-2 space-y-1">
-              {Object.keys(predefinedQA).map((question) => (
+              {predefinedQA.map((qa) => (
                 <button
-                  key={question}
+                  key={qa.question}
                   onClick={() => {
-                    setInputMessage(question);
-                    handleSend();
+                    console.log("Clicked Question:", qa.question); // Debugging ke liye
+                    setInputMessage(qa.question);
+                    setTimeout(handleSend, 100);
                   }}
                   className="text-left text-sm text-gray-600 hover:text-green-500 block"
                 >
-                  {question}
+                  {qa.question}
                 </button>
               ))}
             </div>
@@ -198,8 +239,16 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
       <div className="mb-[6rem] my-[2rem]">
         <Heading content="about Parihar India" color="green" underline={true} />
         <div className="flex justify-center gap-[2rem] items-center">
-          <Cards image={vision} heading="Our Vision" paragraph="Our mission is to empower individuals to achieve holistic health through innovative wellness programs, and patient education initiatives." />
-          <Cards image={mission} heading="Our Mission" paragraph="At Parihar, we are committed to enhancing hygiene and comfort through innovative toilet seat covers." />
+          <Cards
+            image={vision}
+            heading="Our Vision"
+            paragraph="Our mission is to empower individuals to achieve holistic health through innovative wellness programs, and patient education initiatives."
+          />
+          <Cards
+            image={mission}
+            heading="Our Mission"
+            paragraph="At Parihar, we are committed to enhancing hygiene and comfort through innovative toilet seat covers."
+          />
         </div>
       </div>
 
@@ -208,8 +257,14 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
       {/* Restroom Finder Section */}
       <div>
-        <Heading content="Find A Clean and Hygienic Restroom" color="black" underline={false} />
-        <p className="flex justify-center items-center color-gray-400">Certified By Parihar India</p>
+        <Heading
+          content="Find A Clean and Hygienic Restroom"
+          color="black"
+          underline={false}
+        />
+        <p className="flex justify-center items-center color-gray-400">
+          Certified By Parihar India
+        </p>
         <Button content="FIND" />
       </div>
 
@@ -238,14 +293,28 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
       {/* Problems Society Faces Section */}
       <div className="flex flex-col justify-center items-center">
-        <Heading content="Problems Society Faces" color="black" underline={true} />
-        <img src={newspaperCuttings} className="w-[90vw] my-[2rem]" alt="Newspaper Cuttings" />
+        <Heading
+          content="Problems Society Faces"
+          color="black"
+          underline={true}
+        />
+        <img
+          src={newspaperCuttings}
+          className="w-[90vw] my-[2rem]"
+          alt="Newspaper Cuttings"
+        />
       </div>
 
       {/* E-commerce Store Section */}
       <div>
-        <Heading content="Visit Our E-commerce Store" color="black" underline={false} />
-        <p className="flex justify-center items-center color-gray-400">Certified By Parihar India</p>
+        <Heading
+          content="Visit Our E-commerce Store"
+          color="black"
+          underline={false}
+        />
+        <p className="flex justify-center items-center color-gray-400">
+          Certified By Parihar India
+        </p>
         <Button content="VISIT" />
       </div>
 
