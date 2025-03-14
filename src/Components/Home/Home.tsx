@@ -19,6 +19,7 @@ import SustainableGoals from "./SustainableGoals.js";
 import Cards from "./Card.js";
 import vision from "./vision.png";
 import mission from "./mission.png";
+import TestimonialsCarousel from "./TestimonialsCarousel.js";
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -249,6 +250,9 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
       </div>
 
       {/* Contact Us Section */}
+      <div className="w-full">
+        <TestimonialsCarousel />
+      </div>
       <div>
         <ContactUs />
       </div>
