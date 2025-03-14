@@ -55,7 +55,7 @@ const testimonials: Testimonial[] = [
     id: 6,
     name: "Ms. Ananya",
     role: "College Student",
-    image: "src/assets/ananya.jpg",
+    image: "src/assets/ananya.png",
     rating: 5,
     comment: "Game changer, helped preventing UTIs and other issues"
   },
