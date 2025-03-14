@@ -15,7 +15,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: "Dr. Nileshma Pandey",
     role: "Gynaecologist",
-    image: "src/Components/Home/assets/nileshma.jpg",
+    image: "/assets/nileshma.jpg",
     rating: 5,
     comment: "Various patients and their relatives contact UTIs just by using the public restrooms at hospitals and path labs, through this product clean restrooms can be spotted and such diseases can be prevented"
   },
@@ -31,7 +31,7 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: "Ms. Priyanka",
     role: "Teacher",
-    image: "src/Components/Home/assets/priyanka.jpg",
+    image: "/assets/priyanka.jpg",
     rating: 5,
     comment: "Budget friendly and easily accessible"
   },
