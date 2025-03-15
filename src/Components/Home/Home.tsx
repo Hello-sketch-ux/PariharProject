@@ -152,6 +152,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
         {/* Restroom Finder Section */}
         <Heading content="Find A Clean and Hygienic Restroom" color="black" underline={false} />
         <p className="flex justify-center items-center color-gray-400">Certified By Parihar India</p>
+        
         <Button content="FIND" />
 
         {/* Problems Section */}

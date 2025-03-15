@@ -90,7 +90,7 @@ type ChatbotProps = {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-22 right-4 w-[24vw] h-[78vh] bg-white shadow-lg rounded-xl flex flex-col border border-gray-300 z-50">
+    <div className="fixed bottom-22 right-4 sm:w-[24vw] w-[80vw] h-[78vh] bg-white shadow-lg rounded-xl flex flex-col border border-gray-300 z-50">
       <div className="flex items-center justify-between bg-green-500 p-3 rounded-t-lg">
         <h3 className="text-white font-semibold">Parihar India Support</h3>
         <button onClick={onClose} className="text-white">

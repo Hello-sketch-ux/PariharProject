@@ -6,17 +6,19 @@
     cursor: default;
     margin: 1rem;
     margin-bottom: 5rem;
+    width: 30%;
 }
 
 .button-design
 {
-    padding: 1rem;
-    margin: 1rem;
+    padding: 0.5rem;
+    margin: 0.5rem;
     width: 70%;
     background: #07ae7c;
     text-align:center;
     text-transform:uppercase;
     font-weight: 600;
+    font-size: 24px;
     border-radius: 3px;
 }
 
