@@ -27,23 +27,42 @@ interface HomeProps {
 }
 
 const predefinedQA = [
-  { question: "What are your products made of?", answer: "Our toilet seat covers are made from non-porous, oxo-biodegradable, and 100% recyclable materials, ensuring hygiene and sustainability." },
-  { question: "How do I use the product?", answer: "Simply place the cover on the toilet seat, use it, and dispose of it in a dry waste bin after use. It provides a protective barrier against germs." },
-  { question: "Are products eco-friendly?", answer: "Yes! Our products are oxo-biodegradable and 100% recyclable, reducing environmental impact while promoting public hygiene." },
-  { question: "How does restroom locator work?", answer: "Our app helps you find clean, Parihar-certified restrooms near you using real-time location tracking and user reviews." }
+  {
+    question: "What are your products made of?",
+    answer:
+      "Our toilet seat covers are made from non-porous, oxo-biodegradable, and 100% recyclable materials, ensuring hygiene and sustainability.",
+  },
+  {
+    question: "How do I use the product?",
+    answer:
+      "Simply place the cover on the toilet seat, use it, and dispose of it in a dry waste bin after use. It provides a protective barrier against germs.",
+  },
+  {
+    question: "Are products eco-friendly?",
+    answer:
+      "Yes! Our products are oxo-biodegradable and 100% recyclable, reducing environmental impact while promoting public hygiene.",
+  },
+  {
+    question: "How does restroom locator work?",
+    answer:
+      "Our app helps you find clean, Parihar-certified restrooms near you using real-time location tracking and user reviews.",
+  },
 ];
 
 // 🔹 Fuse.js Configuration
 const fuse = new Fuse(predefinedQA, {
   keys: ["question"],
   threshold: 0.3, // Lower value = more strict matching, Higher = more flexible matching
-  includeScore: true
+  includeScore: true,
 });
 
 const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
   const [scrolling, setScrolling] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ text: string; isBot: boolean }[]>([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [messages, setMessages] = useState<{ text: string; isBot: boolean }[]>(
+    []
+  );
   const [inputMessage, setInputMessage] = useState("");
   const navigate = useNavigate();
 
@@ -63,33 +82,45 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
     const userMessage = inputMessage.trim().toLowerCase();
     console.log("User Message:", userMessage);
 
-    setMessages(prev => [...prev, { text: inputMessage, isBot: false }]);
+    setMessages((prev) => [...prev, { text: inputMessage, isBot: false }]);
 
     // 🔹 Use Fuse.js to find the best match
     const result = fuse.search(userMessage);
 
-    const botResponse = result.length > 0 
-      ? result[0].item.answer 
-      : "I apologize, but I don't have specific information about that. Please contact our customer support for more details.";
+    const botResponse =
+      result.length > 0
+        ? result[0].item.answer
+        : "I apologize, but I don't have specific information about that. Please contact our customer support for more details.";
 
     setTimeout(() => {
-      setMessages(prev => [...prev, { text: botResponse, isBot: true }]);
+      setMessages((prev) => [...prev, { text: botResponse, isBot: true }]);
     }, 500);
 
     setInputMessage("");
   };
-  
+
   return (
     <div className="relative min-h-screen bg-[#f5f5f5] flex flex-col items-center justify-center text-center overflow-x-hidden w-full">
       <nav
-        className={`fixed top-0 left-0 w-full flex items-center px-6 lg:px-16 py-4 h-16 transition-all duration-300 z-50 ${
+        className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 py-4 h-16 transition-all duration-300 z-50 ${
           scrolling
             ? "bg-black/70 backdrop-blur-md shadow-md"
             : "bg-transparent"
         }`}
       >
-        <img src={Logo} alt="Parihar India" className="h-7 w-auto" />
-        <div className="ml-auto flex space-x-8">
+        {/* Logo */}
+        <img src={Logo} alt="Parihar India" className="h-6 md:h-8 w-auto" />
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-white"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          ☰
+        </button>
+
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex space-x-6">
           <Link
             to="/"
             className="text-white text-sm font-semibold hover:text-gray-300 transition"
@@ -112,7 +143,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
             to="/contact"
             className="text-white text-sm font-semibold hover:text-gray-300 transition"
           >
-            CONTACT US
+            CONTACT
           </Link>
           <Link
             to="/restroom-finder"
@@ -120,20 +151,44 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
           >
             RESTROOM FINDER
           </Link>
-          <div className="text-white">|</div>
         </div>
 
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="absolute top-16 left-0 w-full bg-black bg-opacity-80 flex flex-col items-center space-y-4 py-4 md:hidden">
+            <Link to="/" className="text-white text-sm font-semibold">
+              HOME
+            </Link>
+            <Link to="/shop" className="text-white text-sm font-semibold">
+              SHOP
+            </Link>
+            <Link to="/about" className="text-white text-sm font-semibold">
+              ABOUT
+            </Link>
+            <Link to="/contact" className="text-white text-sm font-semibold">
+              CONTACT
+            </Link>
+            <Link
+              to="/restroom-finder"
+              className="text-white text-sm font-semibold"
+            >
+              RESTROOM FINDER
+            </Link>
+          </div>
+        )}
+
+        {/* Profile or Login Button */}
         {isLoggedIn ? (
           <button
             onClick={() => navigate("/profile")}
-            className="ml-6 text-white hover:bg-white hover:text-black p-2 rounded-full transition"
+            className="hidden md:block text-white hover:bg-white hover:text-black p-2 rounded-full transition"
           >
-            <User size={24} /> {/* Lucide User Icon */}
+            <User size={24} />
           </button>
         ) : (
           <button
             onClick={() => navigate("/login")}
-            className="ml-6 border-2 text-white hover:bg-white hover:text-black px-4 py-2 rounded-lg font-semibold transition"
+            className="hidden md:block border-2 text-white hover:bg-white hover:text-black px-4 py-2 rounded-lg font-semibold transition"
           >
             LOGIN
           </button>
@@ -143,7 +198,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
       <img
         src={Image}
         alt="Parihar India Logo"
-        className="w-full h-screen object-cover"
+        className="w-full h-[60vh] md:h-screen object-cover"
       />
 
       <button
