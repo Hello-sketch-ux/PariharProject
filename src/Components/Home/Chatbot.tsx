@@ -38,6 +38,7 @@ type ChatbotProps = {
         setTimeout(() => {
             const qa: Record<string, string> = {
                 material: 'Our toilet seat covers are made from non-porous, oxo-biodegradable, and 100% recyclable materials, ensuring hygiene and sustainability.',
+                made: 'Our toilet seat covers are made from non-porous, oxo-biodegradable, and 100% recyclable materials, ensuring hygiene and sustainability.',
                 use: 'Simply place the cover on the toilet seat, use it, and dispose of it in a dry waste bin after use. It provides a protective barrier against germs.',
                 environment: 'Yes! Our products are oxo-biodegradable and 100% recyclable, reducing environmental impact while promoting public hygiene.',
                 buy: 'You can purchase our products from our e-commerce website, as well as at select pharmacies, supermarkets, and online marketplaces.',
