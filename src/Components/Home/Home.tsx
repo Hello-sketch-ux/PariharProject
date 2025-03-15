@@ -43,63 +43,77 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
       <div className="relative min-h-screen bg-[#f5f5f5] flex flex-col items-center text-center overflow-x-hidden w-full">
         {/* Navbar */}
         <nav
-  className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 py-4 h-16 transition-all duration-300 z-50 ${scrolling ? "bg-black/70 backdrop-blur-md shadow-md" : "bg-transparent"}`}
->
-  {/* Logo */}
-  <img src={Logo} alt="Parihar India" className="h-6 md:h-8 w-auto" />
-
-  {/* Mobile Menu Button */}
-  <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-    ☰
-  </button>
-
-  {/* Desktop Nav Links (Right Aligned) */}
-  <div className="hidden md:flex items-center ml-auto space-x-6">
-    {["HOME", "SHOP", "ABOUT", "CONTACT", "RESTROOM FINDER"].map((item, index) => (
-      <Link
-        key={index}
-        to={item === "HOME" ? "/" : `/${item.toLowerCase().replace(/\s/g, "-")}`}
-        className="text-white text-sm font-semibold hover:text-gray-300 transition"
-      >
-        {item}
-      </Link>
-    ))}
-
-    {/* Profile or Login Button */}
-    {isLoggedIn ? (
-      <button
-        onClick={() => navigate("/profile")}
-        className="text-white hover:bg-white hover:text-black p-2 rounded-full transition"
-      >
-        <User size={24} />
-      </button>
-    ) : (
-      <button
-        onClick={() => navigate("/login")}
-        className="border-2 text-white hover:bg-white hover:text-black px-4 py-2 rounded-lg font-semibold transition"
-      >
-        LOGIN
-      </button>
-    )}
-  </div>
-
-  {/* Mobile Menu Dropdown */}
-  {mobileMenuOpen && (
-    <div className="absolute top-16 left-0 w-full bg-black bg-opacity-80 flex flex-col items-center space-y-4 py-4 md:hidden">
-      {["HOME", "SHOP", "ABOUT", "CONTACT", "RESTROOM FINDER"].map((item, index) => (
-        <Link
-          key={index}
-          to={item === "HOME" ? "/" : `/${item.toLowerCase().replace(/\s/g, "-")}`}
-          className="text-white text-sm font-semibold"
+          className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 py-4 h-16 transition-all duration-300 z-50 ${scrolling ? "bg-black/70 backdrop-blur-md shadow-md" : "bg-transparent"}`}
         >
-          {item}
-        </Link>
-      ))}
+          {/* Logo */}
+          <img src={Logo} alt="Parihar India" className="h-6 md:h-8 w-auto" />
 
-      <Link to="/login" className="bg-white text-black px-4 py-2 rounded-md font-semibold">LOGIN</Link>
-    </div>
-  )}
-</nav>
+          {/* Mobile Menu Button */}
+          <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            ☰
+          </button>
+
+          {/* Desktop Nav Links (Right Aligned) */}
+          <div className="hidden md:flex items-center ml-auto space-x-6">
+            {["HOME", "SHOP", "ABOUT", "CONTACT", "RESTROOM FINDER"].map((item, index) => (
+              <Link
+                key={index}
+                to={item === "HOME" ? "/" : `/${item.toLowerCase().replace(/\s/g, "-")}`}
+                className="text-white text-sm font-semibold hover:text-gray-300 transition"
+              >
+                {item}
+              </Link>
+            ))}
+
+            {/* Profile or Login Button */}
+            {isLoggedIn ? (
+              <button
+                onClick={() => navigate("/profile")}
+                className="text-white hover:bg-white hover:text-black p-2 rounded-full transition"
+              >
+                <User size={24} />
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate("/login")}
+                className="border-2 text-white hover:bg-white hover:text-black px-4 py-2 rounded-lg font-semibold transition"
+              >
+                LOGIN
+              </button>
+            )}
+          </div>
+
+          {/* Mobile Menu Dropdown */}
+          {mobileMenuOpen && (
+            <div className="absolute top-16 left-0 w-full bg-black bg-opacity-80 flex flex-col items-center space-y-4 py-4 md:hidden">
+              {["HOME", "SHOP", "ABOUT", "CONTACT", "RESTROOM FINDER"].map((item, index) => (
+                <Link
+                  key={index}
+                  to={item === "HOME" ? "/" : `/${item.toLowerCase().replace(/\s/g, "-")}`}
+                  className="text-white text-sm font-semibold"
+                >
+                  {item}
+                </Link>
+              ))}
+
+              {isLoggedIn ? (
+                <button
+                  onClick={() => navigate("/profile")}
+                  className="text-white hover:bg-white hover:text-black p-2 rounded-full transition"
+                >
+                  <User size={24} />
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="border-2 text-white hover:bg-white hover:text-black px-4 py-2 rounded-lg font-semibold transition"
+                >
+                  LOGIN
+                </button>
+              )}
+            </div>
+          )}
+        </nav>
 
 
 
