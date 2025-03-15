@@ -174,6 +174,12 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
             >
               RESTROOM FINDER
             </Link>
+            <Link
+              to="/login"
+              className="bg-white text-black px-4 py-2 rounded-md font-semibold"
+            >
+              LOGIN
+            </Link>
           </div>
         )}
 
