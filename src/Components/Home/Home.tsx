@@ -204,7 +204,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
       <img
         src={Image}
         alt="Parihar India Logo"
-        className="w-full h-[60vh] md:h-screen object-cover"
+        className="w-full h-[40vh] md:h-screen object-cover"
       />
 
       <button
