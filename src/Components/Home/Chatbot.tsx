@@ -42,6 +42,7 @@ type ChatbotProps = {
                 use: 'Simply place the cover on the toilet seat, use it, and dispose of it in a dry waste bin after use. It provides a protective barrier against germs.',
                 environment: 'Yes! Our products are oxo-biodegradable and 100% recyclable, reducing environmental impact while promoting public hygiene.',
                 buy: 'You can purchase our products from our e-commerce website, as well as at select pharmacies, supermarkets, and online marketplaces.',
+                order: 'You can purchase our products from our e-commerce website, as well as at select pharmacies, supermarkets, and online marketplaces. Which will be available very soon for now contact- +91 70119 89792',
                 safe: 'Absolutely! Our products are safe for everyone, including children and pregnant women, ensuring hygiene protection in public restrooms.',
                 locator: 'Our app helps you find clean, Parihar-certified restrooms near you using real-time location tracking and user reviews.',
                 free: 'Basic access is free, but a premium subscription offers exclusive features like detailed hygiene ratings, directions, and priority restroom access.',
