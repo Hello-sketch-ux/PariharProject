@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { MessageSquare, Bot } from 'lucide-react';
 import { Message } from '../Components/Home/types';
 import { twMerge } from 'tailwind-merge';
