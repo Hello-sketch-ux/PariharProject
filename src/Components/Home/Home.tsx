@@ -46,7 +46,9 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
           className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 py-4 h-16 transition-all duration-300 z-50 ${scrolling ? "bg-black/70 backdrop-blur-md shadow-md" : "bg-transparent"}`}
         >
           {/* Logo */}
+          <Link to="/">
           <img src={Logo} alt="Parihar India" className="h-6 md:h-8 w-auto" />
+          </Link>
 
           {/* Mobile Menu Button */}
           <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>

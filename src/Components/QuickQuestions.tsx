@@ -6,11 +6,8 @@ interface QuickQuestionsProps {
 
 export function QuickQuestions({ onSelect }: QuickQuestionsProps) {
   const questions = [
-    { id: 'material', text: 'What material is used in products?' },
     { id: 'use', text: 'How do I use the product?' },
     { id: 'environment', text: 'Are products environment friendly' },
-    { id: 'locator', text: 'How does restroom locator work?' },
-    { id: 'buy', text: 'How can i order it?' },
   ];
 
   return (
