@@ -34,7 +34,9 @@ const Navbar: React.FC<NavbarProps> = ({ onLogout, userData }) => {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
+              <Link to="/">
             <img src={Logo} alt="Parihar India" className="h-7 w-auto" />
+              </Link>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
             <Link
@@ -150,6 +152,21 @@ const Navbar: React.FC<NavbarProps> = ({ onLogout, userData }) => {
       {isOpen && (
         <div className="sm:hidden">
           <div className="pt-2 pb-3 space-y-1">
+          
+            <Link
+              to="/"
+              className={`${
+                isActive('/')
+                  ? 'bg-green-50 border-green-500 text-green-700'
+                  : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
+              } block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
+              onClick={() => setIsOpen(false)}
+            >
+              <div className="flex items-center">
+                <Home className="mr-2 h-5 w-5" />
+                Home
+              </div>
+              </Link>
             <Link
               to="/dashboard"
               className={`${
