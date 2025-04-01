@@ -23,7 +23,7 @@ const ContactUs = () => {
             </div>
 
             {/* Contactus on whatsapp button */}
-            <a href="https://wa.me/7011989792?text=Hello! I'm interested in your services. Can you please provide more details?" 
+            <a href="https://wa.me/701198792?text=Hello! I'm interested in your services. Can you please provide more details?" 
                className='contact-us-message-button'
                target="_blank"
                rel="noreferrer">
