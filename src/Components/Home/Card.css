@@ -1,17 +1,79 @@
-.mainbox {
-    width: 25vw;
-    height: 100vh;
-    padding: 25px;
-    margin: 10px;
-    display:flex;
+
+.card {
+    width: 300px;
+    height: 350px; 
+    padding: 20px;
+    margin: 15px auto;
+    margin-top: 2rem;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
-.Logo{
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cardImage {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 50%;
+    border: 3px solid #007bff;
 }
-.heading{
-    margin: 10px;
-    padding: 10px;
+
+.cardHeading {
+    margin: 15px 0 10px;
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
 }
+
+.cardParagraph {
+    font-size: 1rem;
+    color: #666;
+    padding: 0 15px;
+    height: 50px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; 
+    -webkit-box-orient: vertical;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 90%;
+        height: 380px;
+    }
+
+    .cardHeading {
+        font-size: 1.3rem;
+    }
+
+    .cardParagraph {
+        font-size: 0.9rem;
+        -webkit-line-clamp: 3; /* Reduce lines on small screens */
+    }
+}
+

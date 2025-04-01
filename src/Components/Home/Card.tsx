@@ -9,12 +9,12 @@ interface CardsProps {
 
 const Cards: React.FC<CardsProps> = ({ image, heading, paragraph }) => {
     return (
-        <div className="mainbox"> 
+        <div className="card">
             <div className="cardImage">
                 <img className="Logo" src={image} alt="Card" />
             </div>    
-            <div className="heading">{heading}</div>  
-            <div className="para"> <p>{paragraph}</p> </div>  
+            <h3 className="cardHeading">{heading}</h3>  
+            <p className="cardParagraph">{paragraph}</p>  
         </div>
     );
 };

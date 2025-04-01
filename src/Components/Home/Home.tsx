@@ -141,7 +141,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
         {/* Vision and Mission Section */}
         <Heading content="about Parihar India" color="green" underline={true} />
-        <div className="flex justify-center gap-[2rem] items-center">
+        <div className="flex justify-center gap-[2rem] items-center flex-wrap">
           <Cards image={vision} heading="Our Vision" paragraph="Empowering individuals with innovative wellness programs." />
           <Cards image={mission} heading="Our Mission" paragraph="Enhancing hygiene and comfort through innovative toilet seat covers." />
         </div>

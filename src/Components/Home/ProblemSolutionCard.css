@@ -3,14 +3,13 @@
     justify-content: center;
     align-items: center;
     gap:4rem;
-    padding: 2rem;
-    margin-top: 4rem;
-    margin-bottom: 5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .card-image
 {
-    max-width:400px;
+    max-width:280px;
     aspect-ratio: square;
 }
 
@@ -49,34 +48,89 @@
 }
 
 
-@media only screen and (max-width:350px) {
+
+
+@media (max-width:400px) {
 
     .problem-solution-card{
         flex-wrap: wrap;
-        padding: 2rem;
+        padding: 0rem;
+        margin: 0px;
     }
+    .card-image{
+        max-width: 220px;
+        overflow: hidden;
+        margin: 0px;
+    }
+    .ProblemSolutionHeading{
+        font-size: 1.2rem;
+        font-weight: 280;
+    }
+    .ProblemSolutionContent{
+        font-size: 14px;
+        padding-right:  1rem;
+        padding-left:  1rem;
+    }
+
     
 }
 
-@media only screen and (max-width: 900px) {
 
-    .card-image
-    {
-        max-width: 350px;
-    }
-    
-}
-
-@media only screen and (max-width: 825px) {
+@media (max-width:800px) {
 
     .problem-solution-card{
+        flex-wrap: wrap;
+        padding: 0rem;
+        margin: 0px;
+        
+    }
+    .card-image{
+        max-width: 250px;
+        overflow: hidden;
+        margin: 0px;
+    }
+    .ProblemSolutionHeading{
+        font-size: 1.5rem;
+        font-weight: 300;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .ProblemSolutionContent{
+        font-size: 15px;
+        padding-right:  1.5rem;
+        padding-left:  1.5rem;
+    }
+    roblem-solution-card{
         flex-wrap: wrap;
     }
     .problem-solution-card-right{
         flex-direction: column-reverse;
     }
-    
+
 }
+
+@media (min-width:1050px) {
+    .card-image{
+        max-width: 350px;
+        overflow: hidden;
+        padding-top: 2rem;
+    }
+    .ProblemSolutionHeading{
+        font-size: 3.1rem;
+        font-weight: 520;
+        padding-top: 2rem;
+    }
+    .ProblemSolutionContent{
+        font-size: 19px;
+        padding-right:  2rem;
+        padding-left:  2rem;
+    }
+    .problem-solution-card{
+        gap: 6rem;
+    }
+
+}
+
 
 @media only screen and (max-width:500px)
 {
