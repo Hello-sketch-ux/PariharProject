@@ -120,7 +120,10 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
 
         {/* Hero Image */}
-        <img src={Image} alt="Parihar India Logo" className="w-full h-[40vh] md:h-screen object-cover" />
+        <div className="w-[100vw] h-[100vh] bg-black flex justify-center items-center">
+            <img src={Image} alt="Parihar India Logo" className="max-md:h-[60vh] max-md:w-[100vw] h-[90vh] w-[90vw]" />
+        </div>
+        
 
         {/* Chatbot Button */}
         <button onClick={() => setIsOpen(!isOpen)} className="fixed bottom-6 right-6 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition z-50">

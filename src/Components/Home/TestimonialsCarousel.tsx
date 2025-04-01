@@ -75,7 +75,7 @@ const TestimonialsCarousel: React.FC = () => {
       </h1>
 
       <div className="relative w-full max-w-7xl">
-        <div className="flex justify-center gap-8 overflow-hidden">
+        <div className="flex justify-center items-stretch gap-8 overflow-hidden">
           {[-1, 0, 1].map((offset) => {
             const index = (currentIndex + offset + testimonials.length) % testimonials.length;
             const testimonial = testimonials[index];
@@ -83,7 +83,7 @@ const TestimonialsCarousel: React.FC = () => {
             return (
               <div
                 key={testimonial.id}
-                className={`w-full max-w-sm transform transition-all duration-500 ${
+                className={`w-full  transform transition-all duration-500 flex items-stretch ${
                   offset === 0 ? 'scale-100 opacity-100' : 'scale-90 opacity-50'
                 }`}
               >

@@ -36,17 +36,26 @@ const SustainableGoals: React.FC = () => {
     ];
 
     return (
-        <div className="max-w-6xl mx-auto text-center py-10 px-4">
-            <img src={SustainableGoal} className="mb-[3rem]" alt="Sustainable Development Goals" />
-            <h2 className="text-4xl font-semibold mb-16">Our Sustainable Development Goals (SDGs)</h2>
-            <div className="relative">
-                <div className="grid md:grid-cols-5 gap-6 w-full relative z-10">
+        <div className="max-w-6xl flex flex-col justify-start items-center gap-4  text-center ">
+            {
+               window.innerWidth>=600 ? (
+                    <img src={SustainableGoal} className="mb-[2rem]" alt="Sustainable Development Goals" />
+                )
+                :
+                (
+                    <div></div>
+                )
+            }
+            
+            <h2 className="text-3xl max-md:text-2xl  font-semibold mb-8 max-md:mb-6 p-8 max-sm:p-4">Our Sustainable Development Goals (SDGs)</h2>
+            <div className="flex justify-center items-start flex-wrap w-[100vw] p-8 max-sm:p-6">
+                <div className="gap-8 flex flex-wrap justify-center items-stretch">
                     {goals.map((goal, index) => (
-                        <div key={index} className="flex flex-col items-center text-center relative">
-                            <div className="w-4 h-4 bg-green-500 rounded-full mb-4 relative z-20"></div>
-                            <h3 className="font-semibold text-lg mb-2">{goal.title}</h3>
-                            <p className="text-sm text-gray-600">{goal.description}</p>
-                        </div>
+                       <div key={index} className="flex flex-col bg-white rounded-[3px] border-t-4 border-green-600 shadow-sm  transition-shadow duration-300 p-6 w-[20rem] max-md:w-[80%] max-sm:w-[100%] hover:bg-[#ecffe6] ">
+                       <h3 className="font-semibold text-lg  text-gray-800 mb-4">{goal.title}</h3>
+                       <p className="text-gray-700 text-lg max-sm:text-[0.9rem] mb-6">{goal.description}</p>
+                     </div>
+                     
                     ))}
                 </div>
             </div>
