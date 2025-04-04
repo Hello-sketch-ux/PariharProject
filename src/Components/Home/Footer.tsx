@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer: React.FC = () => {
     return (
-        <div className="container">
+        <div className="containerF">
             <div className="tagCont">
                 <a href="#" className="tags">PRIVACY POLICY</a>
                 <a href="#" className="tags">TERMS AND CONDITIONS</a>

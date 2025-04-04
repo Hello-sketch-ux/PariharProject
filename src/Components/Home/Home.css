@@ -1,0 +1,19 @@
+.MV{
+   
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap; 
+}
+
+
+
+@media(min-width:769px){
+    .MV{
+        gap: 2rem;
+    }
+}
+
+@media(max-width:768px){
+    .MV{margin: 1.5rem;}
+}

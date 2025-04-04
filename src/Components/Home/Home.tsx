@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User, MessageSquare } from "lucide-react";
+import "./Home.css";
 // import Fuse from "fuse.js";
 import Image from "./logo.png";
 import Logo from "./Parihar_logo.png";
@@ -120,7 +121,10 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
 
         {/* Hero Image */}
-        <img src={Image} alt="Parihar India Logo" className="w-full h-[40vh] md:h-screen object-cover" />
+        <div className="w-[100vw] h-[100vh] bg-black flex justify-center items-center">
+            <img src={Image} alt="Parihar India Logo" className="max-md:h-[60vh] max-md:w-[100vw] h-[90vh] w-[90vw]" />
+        </div>
+        
 
         {/* Chatbot Button */}
         <button onClick={() => setIsOpen(!isOpen)} className="fixed bottom-6 right-6 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition z-50">
@@ -141,7 +145,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
         {/* Vision and Mission Section */}
         <Heading content="about Parihar India" color="green" underline={true} />
-        <div className="flex justify-center gap-[2rem] items-center flex-wrap">
+        <div className="MV">
           <Cards image={vision} heading="Our Vision" paragraph="Empowering individuals with innovative wellness programs." />
           <Cards image={mission} heading="Our Mission" paragraph="Enhancing hygiene and comfort through innovative toilet seat covers." />
         </div>
