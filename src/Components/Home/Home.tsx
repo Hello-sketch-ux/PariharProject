@@ -169,7 +169,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
         {/* Problems Society Faces Section */}
         <Heading content="Problems Society Faces" color="black" underline={true} />
         <div className="news-container">
-          <img src={news1} className=" w-[400px]" alt="News" />
+          <img src={news1} className="w-[400px]" alt="News" />
           <img src={news2} className="w-[400px] " alt="News" />
         </div>
 
