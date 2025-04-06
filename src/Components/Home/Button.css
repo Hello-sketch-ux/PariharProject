@@ -6,7 +6,7 @@
     cursor: default;
     margin: 1rem;
     margin-bottom: 1rem;
-    width: 30%;
+    width: 40%;
 }
 
 .button-design
@@ -17,11 +17,11 @@
     background: #07ae7c;
     text-align:center;
     text-transform:uppercase;
-    font-weight: 600;
-    font-size: 24px;
+    font-weight: 300;
+    font-size: 1.5rem;
     border-radius: 3px;
 }
 
 .button-design:hover{
-    background-color: #0acf94;
+    background-color: #0d976e;
 }

@@ -12,7 +12,8 @@ import healthcare from "./healthcare.png";
 import germsAndProtection from "./germsAndProtection.png";
 import obsoleteProducts from "./obsoleteProducts.png";
 import Button from "./Button.js";
-import newspaperCuttings from "./newspaperCuttings.png";
+import news1 from "../Home/news1.png"
+import news2 from "../Home/news2.png"
 import ContactUs from "./contactUs.js";
 import Subscribe from "./Subscribe.js";
 import Footer from "./Footer.js";
@@ -167,7 +168,10 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
         {/* Problems Society Faces Section */}
         <Heading content="Problems Society Faces" color="black" underline={true} />
-        <img src={newspaperCuttings} className="w-[90vw] my-[2rem]" alt="Newspaper Cuttings" />
+        <div className="news-container">
+          <img src={news1} className=" w-[400px]" alt="News" />
+          <img src={news2} className="w-[400px] " alt="News" />
+        </div>
 
         {/* E-commerce Store Section */}
         <Heading content="Visit Our E-commerce Store" color="black" underline={false} />

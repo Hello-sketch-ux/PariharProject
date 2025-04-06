@@ -1,5 +1,4 @@
 .image{
-    height: 40vh;
     width: 100vw;
     background-image: url(./crossContamination.png);
     background-size: cover;
@@ -8,23 +7,25 @@
     display: flex ;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
-    margin: 2rem;
+    margin-top: 2rem;
+    padding: 1.5rem;
 }
 
 .input{
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    gap: 0.75rem;
 }
 
 .email{
-    background: transparent;
+    background:transparent;
     border: 1px solid white;
     padding: 1rem;
     font-size: 16px;
     color: white;
-    width: 36vw;
+    margin: 1rem;
+    width: 400px;
     border-radius: 5px;
 }
 
@@ -58,4 +59,20 @@ cursor: pointer;
     justify-content: space-between;
     align-items: center; 
     color: white;
+}
+
+
+@media only screen and (max-width:668px )
+{
+    .input{
+        flex-wrap: wrap;
+        gap:0.75rem;
+    }
+}
+
+@media only screen and (max-width:468px )
+{
+    .email{
+        width: 300px;
+    }
 }

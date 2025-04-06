@@ -9,7 +9,7 @@ const Subscribe: React.FC = () => {
                 <p>Get 10% off your first purchase when you sign up for our newsletter!</p>
             </div>
             <div className="input">
-                <div>
+                <div className="email-container">
                     <input type="email" placeholder="Email" className="email" />
                 </div>
                 <div>
