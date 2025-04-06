@@ -58,7 +58,7 @@ const SustainableGoals: React.FC = () => {
             {
                window.innerWidth>=800 ? (
                     <div>
-                        <img src={SustainableGoal} className="mb-[2rem]" alt="Sustainable Development Goals" />
+                        <img src={SustainableGoal} className="p-[4rem]" alt="Sustainable Development Goals" />
                         <div className="flex justify-center items-start flex-wrap w-[100vw] p-8 max-sm:p-6">
                             <div className="gap-8 flex flex-wrap justify-center items-stretch">
                                 {goals.map((goal, index) => (
