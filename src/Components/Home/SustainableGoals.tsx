@@ -56,9 +56,9 @@ const SustainableGoals: React.FC = () => {
     return (
         <div className="max-w-6xl flex flex-col justify-start items-center gap-4  text-center ">
             {
-               window.innerWidth>=800 ? (
+               windowWidth<=550 ? (
                     <div>
-                        <img src={SustainableGoal} className="p-[4rem]" alt="Sustainable Development Goals" />
+                        <h2 className="text-3xl max-md:text-2xl  font-semibold mb-8 max-md:mb-0 p-8 max-sm:p-4">Our Sustainable Development Goals (SDGs)</h2>
                         <div className="flex justify-center items-start flex-wrap w-[100vw] p-8 max-sm:p-6">
                             <div className="gap-8 flex flex-wrap justify-center items-stretch">
                                 {goals.map((goal, index) => (
@@ -75,11 +75,11 @@ const SustainableGoals: React.FC = () => {
                 :
                 (
                     <div>
-                        <h2 className="text-3xl max-md:text-2xl  font-semibold mb-8 max-md:mb-0 p-8 max-sm:p-4">Our Sustainable Development Goals (SDGs)</h2>
-                        <div className="px-6 md:px-16 py-10">
-                            <div className="space-y-6 text-gray-800 max-w-[600px]">
+                        <img src={SustainableGoal} className="p-4 mb-[2rem]" alt="Sustainable Development Goals" />
+                        <div>
+                            <div className="text-gray-800  flex justify-between items-start gap-6">
                                 {goals.map((item, index) => (
-                                <div key={index} className={`flex flex-col justify-start items-center gap-4  ${index==4 ? "mb-4" : "mb-12"}`}>
+                                <div key={index} className={`flex flex-col justify-start  items-center gap-4  ${index==4 ? "mb-4" : "mb-12"}`}>
                                     <div className="w-[15px] h-[15px] rounded-full bg-green-700"></div>
                                     <span className="font-semibold text-[1.25rem] text-green-700">{item.title}:</span>{" "}
                                     <span className="text-gray-700">{item.description}</span>
