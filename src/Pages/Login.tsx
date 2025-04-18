@@ -27,7 +27,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
 
     try {
-      const response = await fetch('https://parihar-project.vercel.app/api/auth/login', {
+      const response = await fetch('https://www.pariharindia.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstName, lastName, email, mobile, password }),
