@@ -26,47 +26,47 @@ const App: React.FC = () => {
     setIsLoggedIn(false);
   };
 
+  // ✅ Moved NavbarWrapper inside App to access useLocation safely
+  const NavbarWrapper: React.FC = () => {
+    const location = useLocation();
+
+    if (location.pathname === "/") {
+      return null; // Don't render the Navbar on the Home page
+    }
+
+    return isLoggedIn ? <Navbar onLogout={handleLogout} userData={userData} /> : null;
+  };
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
-        <NavbarWrapper isLoggedIn={isLoggedIn} onLogout={handleLogout} userData={userData} />
+        <NavbarWrapper />
         <Routes>
           <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-          <Route 
-            path="/login" 
-            element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />} 
+          <Route
+            path="/login"
+            element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
           />
-          <Route 
-            path="/dashboard" 
-            element={isLoggedIn ? <Dashboard userData={userData} /> : <Navigate to="/login" />} 
+          <Route
+            path="/dashboard"
+            element={isLoggedIn ? <Dashboard userData={userData} /> : <Navigate to="/login" />}
           />
-          <Route 
-            path="/feedback" 
-            element={isLoggedIn ? <Feedback /> : <Navigate to="/login" />} 
+          <Route
+            path="/feedback"
+            element={isLoggedIn ? <Feedback /> : <Navigate to="/login" />}
           />
-          <Route 
-            path="/contact" 
-            element={isLoggedIn ? <ContactUs /> : <Navigate to="/login" />} 
+          <Route
+            path="/contact"
+            element={isLoggedIn ? <ContactUs /> : <Navigate to="/login" />}
           />
-          <Route 
-            path="/profile" 
-            element={isLoggedIn ? <Profile userData={userData} /> : <Navigate to="/login" />} 
+          <Route
+            path="/profile"
+            element={isLoggedIn ? <Profile userData={userData} /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>
     </Router>
   );
-};
-
-// Helper component to control which navbar to show
-const NavbarWrapper: React.FC<{ isLoggedIn: boolean; onLogout: () => void; userData: any }> = ({ isLoggedIn, onLogout, userData }) => {
-  const location = useLocation();
-  
-  if (location.pathname === "/") {
-    return null; // Don't render the white navbar on Home page
-  }
-  
-  return isLoggedIn ? <Navbar onLogout={onLogout} userData={userData} /> : null;
 };
 
 export default App;
