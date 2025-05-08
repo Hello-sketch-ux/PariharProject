@@ -18,47 +18,40 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    if(token) setIsLoggedIn(true);
-    else
-    {
+    const token = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+
+    if (token && storedUser) {
+      setIsLoggedIn(true);
+      setUserData(JSON.parse(storedUser));
+    } else {
       setIsLoggedIn(false);
     }
-  }, [])
-  
-
-  const token = localStorage.getItem('token');
-
-  // if(token) setIsLoggedIn(true);
-  // else
-  // {
-  //   setIsLoggedIn(false);
-  // }
+  }, []);
 
   const handleLogin = (data: { firstName: string; lastName: string; email: string; mobile: string }) => {
     setUserData(data);
     setIsLoggedIn(true);
+    localStorage.setItem('user', JSON.stringify(data));
   };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setIsLoggedIn(false);
+    setUserData({ firstName: '', lastName: '', email: '', mobile: '' });
   };
 
-  // ✅ Moved NavbarWrapper inside App to access useLocation safely
   const NavbarWrapper: React.FC = () => {
     const location = useLocation();
-
-    if (location.pathname === "/") {
-      return null; // Don't render the Navbar on the Home page
-    }
-
-    return token ? <Navbar onLogout={handleLogout} userData={userData} /> : null;
+    if (location.pathname === '/') return null;
+    return isLoggedIn ? <Navbar onLogout={handleLogout} userData={userData} /> : null;
   };
 
   return (
     <Router>
+      <NavbarWrapper />
       <div className="min-h-screen bg-gray-50">
-        <NavbarWrapper />
         <Routes>
           <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
           <Route

@@ -11,7 +11,7 @@ interface LoginProps {
   }) => void;
 }
 
-const Login: React.FC<LoginProps> = () => {
+const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState('');
@@ -20,7 +20,6 @@ const Login: React.FC<LoginProps> = () => {
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +27,6 @@ const Login: React.FC<LoginProps> = () => {
       setError('Please fill in all required fields');
       return;
     }
-    
 
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
@@ -38,14 +36,14 @@ const Login: React.FC<LoginProps> = () => {
       });
 
       const data = await response.json();
-
-      console.log("login-response : " , data);
+      console.log("login-response:", data);
 
       if (response.ok) {
-        
         localStorage.setItem("token", data.token);
-        navigate('/')
+        localStorage.setItem("user", JSON.stringify({ firstName, lastName, email, mobile }));
 
+        onLogin({ firstName, lastName, email, mobile });
+        navigate('/');
       } else {
         setError(data.message || 'Login failed.');
       }
@@ -53,27 +51,6 @@ const Login: React.FC<LoginProps> = () => {
       setError('Server error. Please try again.');
     }
   };
-
-  // useEffect(() => {
-  //   // Check for existing refresh token (or access token) in cookies
-  //   const checkAuthStatus = async () => {
-  //     const refreshToken = document.cookie.split('; ').find(row => row.startsWith('refreshToken='));
-
-  //     if (refreshToken) {
-  //       try {
-  //         const res = await axios.post('http://localhost:5000/api/auth/refresh', {}, { withCredentials: true });
-  //         const { accessToken } = res.data.data;
-  //         // Store the new access token in localStorage or cookies for use with requests
-  //         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-  //         // Optionally, store in localStorage to persist across sessions (or use cookies)
-  //       } catch (error) {
-  //         console.log('Session expired or invalid token');
-  //       }
-  //     }
-  //   };
-
-  //   checkAuthStatus();
-  // }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8">
@@ -84,127 +61,60 @@ const Login: React.FC<LoginProps> = () => {
             <p className="mt-2 text-black">Sign in to your account</p>
           </div>
 
-          {error && <div className="mb-4 bg-red-50 text-red-700 p-3 rounded-md text-sm">{error}</div>}
-          {success && <div className="mb-4 bg-green-50 text-green-700 p-3 rounded-md text-sm">{success}</div>}
+          {error && <div className="mb-4 bg-red-100 text-red-700 p-3 rounded-md text-sm">{error}</div>}
 
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="firstName"
-                  type="text"
-                  required
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className="pl-10 block w-full py-3 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                />
-              </div>
+            <InputField id="firstName" label="First Name" value={firstName} onChange={setFirstName} Icon={User} required />
+            <InputField id="lastName" label="Last Name (Optional)" value={lastName} onChange={setLastName} Icon={User} />
+            <InputField id="email" label="Email Address" value={email} onChange={setEmail} Icon={Mail} type="email" required />
+            <InputField id="mobile" label="Mobile Number" value={mobile} onChange={setMobile} Icon={Phone} type="tel" required />
+            <InputField id="password" label="Password" value={password} onChange={setPassword} Icon={Lock} type="password" required />
+
+            <div className="flex justify-end">
+              <a href="#" className="text-sm text-blue-600 hover:text-blue-500">Forgot your password?</a>
             </div>
 
-            <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                Last Name (Optional)
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  className="pl-10 block w-full py-3 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 block w-full py-3 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
-                Mobile Number
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Phone className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="mobile"
-                  name="mobile"
-                  type="tel"
-                  required
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                  className="pl-10 block w-full py-3 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 block w-full py-3 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end">
-              <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                  Forgot your password?
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-700"
-              >
-                Sign in
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full py-3 px-4 bg-green-500 hover:bg-green-700 text-white rounded-md text-sm font-medium"
+            >
+              Sign in
+            </button>
           </form>
         </div>
       </div>
     </div>
   );
 };
+
+interface InputFieldProps {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (val: string) => void;
+  Icon: React.ElementType;
+  type?: string;
+  required?: boolean;
+}
+
+const InputField: React.FC<InputFieldProps> = ({ id, label, value, onChange, Icon, type = "text", required = false }) => (
+  <div>
+    <label htmlFor={id} className="block text-sm font-medium text-gray-700">{label}</label>
+    <div className="mt-1 relative rounded-md shadow-sm">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <Icon className="h-5 w-5 text-gray-400" />
+      </div>
+      <input
+        id={id}
+        name={id}
+        type={type}
+        required={required}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="pl-10 block w-full py-3 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+      />
+    </div>
+  </div>
+);
 
 export default Login;
