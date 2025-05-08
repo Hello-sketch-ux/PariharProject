@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Home from './Components/Home/Home';
 import Login from './Pages/Login';
@@ -17,12 +17,30 @@ const App: React.FC = () => {
     mobile: ''
   });
 
+  useEffect(() => {
+    if(token) setIsLoggedIn(true);
+    else
+    {
+      setIsLoggedIn(false);
+    }
+  }, [])
+  
+
+  const token = localStorage.getItem('token');
+
+  // if(token) setIsLoggedIn(true);
+  // else
+  // {
+  //   setIsLoggedIn(false);
+  // }
+
   const handleLogin = (data: { firstName: string; lastName: string; email: string; mobile: string }) => {
     setUserData(data);
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
   };
 
@@ -34,7 +52,7 @@ const App: React.FC = () => {
       return null; // Don't render the Navbar on the Home page
     }
 
-    return isLoggedIn ? <Navbar onLogout={handleLogout} userData={userData} /> : null;
+    return token ? <Navbar onLogout={handleLogout} userData={userData} /> : null;
   };
 
   return (

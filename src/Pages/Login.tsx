@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User, Mail, Lock, Phone } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
   onLogin: (data: {
@@ -10,7 +11,9 @@ interface LoginProps {
   }) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC<LoginProps> = () => {
+  const navigate = useNavigate();
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -25,28 +28,52 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       setError('Please fill in all required fields');
       return;
     }
+    
 
     try {
-      const response = await fetch('https://www.pariharindia.com/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstName, lastName, email, mobile, password }),
       });
 
       const data = await response.json();
-      if (response.ok) {
-        setSuccess('Login successful! 🎉');
-        setError('');
 
-        // Notify App component about login
-        onLogin({ firstName, lastName, email, mobile });
+      console.log("login-response : " , data);
+
+      if (response.ok) {
+        
+        localStorage.setItem("token", data.token);
+        navigate('/')
+
       } else {
         setError(data.message || 'Login failed.');
       }
-    } catch (err) {
+    } catch (error) {
       setError('Server error. Please try again.');
     }
   };
+
+  // useEffect(() => {
+  //   // Check for existing refresh token (or access token) in cookies
+  //   const checkAuthStatus = async () => {
+  //     const refreshToken = document.cookie.split('; ').find(row => row.startsWith('refreshToken='));
+
+  //     if (refreshToken) {
+  //       try {
+  //         const res = await axios.post('http://localhost:5000/api/auth/refresh', {}, { withCredentials: true });
+  //         const { accessToken } = res.data.data;
+  //         // Store the new access token in localStorage or cookies for use with requests
+  //         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  //         // Optionally, store in localStorage to persist across sessions (or use cookies)
+  //       } catch (error) {
+  //         console.log('Session expired or invalid token');
+  //       }
+  //     }
+  //   };
+
+  //   checkAuthStatus();
+  // }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8">
