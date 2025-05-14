@@ -83,24 +83,24 @@ const TestimonialsCarousel: React.FC = () => {
             return (
               <div
                 key={testimonial.id}
-                className={`w-full  transform transition-all duration-500 flex items-stretch ${
+                className={`w-full transform transition-all duration-500 flex items-stretch ${
                   offset === 0 ? 'scale-100 opacity-100' : 'scale-90 opacity-50'
                 }`}
               >
-                <div className="bg-white rounded-lg p-8 shadow-xl text-center">
+                <div className="bg-white rounded-lg p-8 shadow-xl text-center w-full max-w-md mx-auto">
                   <div className="flex flex-col items-center">
-                    <div className="w-32 h-32 mb-6">
+                    <div className="w-32 h-32 mb-6 overflow-hidden rounded-full border-2 border-gray-300">
                       <img
                         src={testimonial.image}
                         alt={testimonial.name}
-                        className="w-full h-full rounded-full object-cover"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="flex mb-4">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className="w-6 h-6 text-yellow-400 fill-current" 
+                        <Star
+                          key={i}
+                          className="w-6 h-6 text-yellow-400 fill-current"
                           fill="#FACC15"
                         />
                       ))}
