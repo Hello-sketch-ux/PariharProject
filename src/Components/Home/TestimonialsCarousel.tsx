@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
-// Importing images directly from src folder
+// Importing images
 import nileshma from '../../Components/Home/assets/nileshma.jpg';
 import aishwarya from '../../Components/Home/assets/aishwarya.jpg';
 import priyanka from '../../Components/Home/assets/priyanka.jpg';
@@ -50,15 +50,15 @@ const TestimonialsCarousel: React.FC = () => {
   const nextSlide = () => {
     if (!isAnimating) {
       setIsAnimating(true);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }
   };
 
   const prevSlide = () => {
     if (!isAnimating) {
       setIsAnimating(true);
-      setCurrentIndex((prevIndex) =>
-        prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+      setCurrentIndex((prev) =>
+        prev === 0 ? testimonials.length - 1 : prev - 1
       );
     }
   };
@@ -70,49 +70,40 @@ const TestimonialsCarousel: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] flex flex-col items-center justify-center px-4 py-16">
-      <h1 className="text-5xl md:text-6xl font-bold text-white mb-20 text-center tracking-wide">
+      <h1 className="text-4xl md:text-5xl font-bold text-white mb-16 text-center tracking-wide">
         HEAR FROM OUR CUSTOMERS
       </h1>
 
       <div className="relative w-full max-w-7xl">
-        <div className="flex justify-center items-stretch gap-8 overflow-hidden">
+        <div className="flex justify-center items-stretch gap-6 transition-transform ease-in-out duration-500">
           {[-1, 0, 1].map((offset) => {
             const index = (currentIndex + offset + testimonials.length) % testimonials.length;
             const testimonial = testimonials[index];
+            const isActive = offset === 0;
 
             return (
               <div
                 key={testimonial.id}
-                className={`w-full transform transition-all duration-500 flex items-stretch ${
-                  offset === 0 ? 'scale-100 opacity-100' : 'scale-90 opacity-50'
+                className={`w-full max-w-md transform transition-all duration-500 ${
+                  isActive ? 'scale-100 opacity-100' : 'scale-90 opacity-50'
                 }`}
               >
-                <div className="bg-white rounded-lg p-8 shadow-xl text-center w-full max-w-md mx-auto">
-                  <div className="flex flex-col items-center">
-                    <div className="w-32 h-32 mb-6 overflow-hidden rounded-full border-2 border-gray-300">
-                      <img
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-6 h-6 text-yellow-400 fill-current"
-                          fill="#FACC15"
-                        />
-                      ))}
-                    </div>
-                    <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                      {testimonial.name}
-                    </h3>
-                    <p className="text-gray-600 mb-6 text-lg">{testimonial.role}</p>
-                    <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                      "{testimonial.comment}"
-                    </p>
+                <div className="bg-white rounded-2xl p-6 shadow-2xl h-full flex flex-col items-center text-center">
+                  <div className="w-28 h-28 mb-4 overflow-hidden rounded-full border-4 border-yellow-300">
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
+                  <div className="flex justify-center mb-3">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-800">{testimonial.name}</h3>
+                  <p className="text-sm text-gray-500 mb-4">{testimonial.role}</p>
+                  <p className="text-gray-700 italic text-base px-2">"{testimonial.comment}"</p>
                 </div>
               </div>
             );
@@ -121,15 +112,16 @@ const TestimonialsCarousel: React.FC = () => {
 
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 md:p-3 rounded-full shadow-md hover:bg-gray-100 transition"
         >
-          <ChevronLeft className="w-8 h-8 text-gray-800" />
+          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-gray-800" />
         </button>
+
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white p-2 md:p-3 rounded-full shadow-md hover:bg-gray-100 transition"
         >
-          <ChevronRight className="w-8 h-8 text-gray-800" />
+          <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-gray-800" />
         </button>
       </div>
     </div>
