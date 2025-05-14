@@ -69,8 +69,8 @@ const TestimonialsCarousel: React.FC = () => {
   }, [currentIndex]);
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] flex flex-col items-center justify-center px-4 py-16">
-      <h1 className="text-4xl md:text-5xl font-bold text-white mb-16 text-center tracking-wide">
+    <div className="min-h-screen bg-[#FFF9F4] flex flex-col items-center justify-center px-4 py-16">
+      <h1 className="text-4xl md:text-5xl font-bold text-[#333] mb-16 text-center tracking-wide">
         HEAR FROM OUR CUSTOMERS
       </h1>
 
@@ -84,11 +84,9 @@ const TestimonialsCarousel: React.FC = () => {
             return (
               <div
                 key={testimonial.id}
-                className={`w-full max-w-md transform transition-all duration-500 ${
-                  isActive ? 'scale-100 opacity-100' : 'scale-90 opacity-50'
-                }`}
+                className={`w-full max-w-md transform transition-all duration-500 ${isActive ? 'scale-100 opacity-100' : 'scale-90 opacity-50'}`}
               >
-                <div className="bg-white rounded-2xl p-6 shadow-2xl h-full flex flex-col items-center text-center">
+                <div className="bg-white rounded-2xl p-6 shadow-xl h-full flex flex-col items-center text-center">
                   <div className="w-28 h-28 mb-4 overflow-hidden rounded-full border-4 border-yellow-300">
                     <img
                       src={testimonial.image}
@@ -112,16 +110,16 @@ const TestimonialsCarousel: React.FC = () => {
 
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 md:p-3 rounded-full shadow-md hover:bg-gray-100 transition"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 md:p-3 rounded-full shadow-md hover:bg-gray-200 transition"
         >
-          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-gray-800" />
+          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-[#444]" />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white p-2 md:p-3 rounded-full shadow-md hover:bg-gray-100 transition"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white p-2 md:p-3 rounded-full shadow-md hover:bg-gray-200 transition"
         >
-          <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-gray-800" />
+          <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-[#444]" />
         </button>
       </div>
     </div>
