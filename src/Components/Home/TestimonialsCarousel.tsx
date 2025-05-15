@@ -47,6 +47,9 @@ const TestimonialsCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   const nextSlide = useCallback(() => {
     if (!isAnimating) {
@@ -68,6 +71,49 @@ const TestimonialsCarousel: React.FC = () => {
     setIsPlaying(prev => !prev);
   };
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.pageX - scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - startX;
+    const walk = (x - scrollLeft) * 2; // Adjust sliding speed
+    if (Math.abs(walk) > 50) { // Threshold for slide change
+      if (walk > 0) {
+        prevSlide();
+      } else {
+        nextSlide();
+      }
+      setIsDragging(false);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - scrollLeft);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - startX;
+    const walk = (x - scrollLeft) * 2;
+    if (Math.abs(walk) > 50) {
+      if (walk > 0) {
+        prevSlide();
+      } else {
+        nextSlide();
+      }
+      setIsDragging(false);
+    }
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => setIsAnimating(false), 500);
     return () => clearTimeout(timer);
@@ -75,11 +121,11 @@ const TestimonialsCarousel: React.FC = () => {
 
   useEffect(() => {
     let autoplayTimer: number;
-    if (isPlaying) {
+    if (isPlaying && !isDragging) {
       autoplayTimer = window.setInterval(nextSlide, 5000);
     }
     return () => clearInterval(autoplayTimer);
-  }, [isPlaying, nextSlide]);
+  }, [isPlaying, isDragging, nextSlide]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white flex flex-col items-center justify-center px-4 py-16">
@@ -95,19 +141,27 @@ const TestimonialsCarousel: React.FC = () => {
         </p>
       </div>
 
-      <div className="relative w-full max-w-7xl overflow-hidden">
+      <div 
+        className="relative w-full max-w-7xl overflow-hidden cursor-grab active:cursor-grabbing"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleMouseUp}
+      >
         <div className="flex justify-center items-stretch min-h-[500px] sm:min-h-[420px] md:min-h-[380px]">
           {[-1, 0, 1].map((offset) => {
             const index = (currentIndex + offset + testimonials.length) % testimonials.length;
             const testimonial = testimonials[index];
             const isActive = offset === 0;
             
-            // Adjust positioning for different screen sizes
             const xOffset = {
-              base: offset * 320, // Mobile
-              sm: offset * 340,   // Small screens
-              md: offset * 380,   // Medium screens
-              lg: offset * 400    // Large screens
+              base: offset * 320,
+              sm: offset * 340,
+              md: offset * 380,
+              lg: offset * 400
             };
             
             const position = window.innerWidth >= 1024 ? xOffset.lg :
@@ -170,8 +224,20 @@ const TestimonialsCarousel: React.FC = () => {
           })}
         </div>
 
+        {/* Slider range input */}
+        <div className="absolute left-0 right-0 bottom-[-3rem] flex justify-center px-4">
+          <input
+            type="range"
+            min={0}
+            max={testimonials.length - 1}
+            value={currentIndex}
+            onChange={(e) => setCurrentIndex(parseInt(e.target.value))}
+            className="w-full max-w-md h-2 rounded-lg appearance-none cursor-pointer bg-amber-200 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-amber-500 [&::-moz-range-thumb]:border-0"
+          />
+        </div>
+
         {/* Controls */}
-        <div className="absolute left-0 right-0 bottom-[-4.5rem] flex justify-center items-center gap-4">
+        <div className="absolute left-0 right-0 bottom-[-6rem] flex justify-center items-center gap-4">
           <button
             onClick={prevSlide}
             className="p-2 sm:p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
@@ -202,7 +268,7 @@ const TestimonialsCarousel: React.FC = () => {
         </div>
 
         {/* Progress indicators */}
-        <div className="absolute left-0 right-0 bottom-[-7rem] flex justify-center gap-1 sm:gap-2 overflow-x-auto px-4">
+        <div className="absolute left-0 right-0 bottom-[-8.5rem] flex justify-center gap-1 sm:gap-2 overflow-x-auto px-4">
           {testimonials.map((_, idx) => (
             <button
               key={idx}
