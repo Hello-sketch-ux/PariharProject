@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ChevronLeft, ChevronRight, Star, Quote, Play, Pause } from 'lucide-react';
 
 // Importing images
 import nileshma from '../../Components/Home/assets/nileshma.jpg';
@@ -46,21 +46,26 @@ const testimonials: Testimonial[] = [
 const TestimonialsCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     if (!isAnimating) {
       setIsAnimating(true);
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }
-  };
+  }, [isAnimating]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     if (!isAnimating) {
       setIsAnimating(true);
       setCurrentIndex((prev) =>
         prev === 0 ? testimonials.length - 1 : prev - 1
       );
     }
+  }, [isAnimating]);
+
+  const toggleAutoplay = () => {
+    setIsPlaying(prev => !prev);
   };
 
   useEffect(() => {
@@ -68,59 +73,129 @@ const TestimonialsCarousel: React.FC = () => {
     return () => clearTimeout(timer);
   }, [currentIndex]);
 
+  useEffect(() => {
+    let autoplayTimer: number;
+    if (isPlaying) {
+      autoplayTimer = window.setInterval(nextSlide, 5000);
+    }
+    return () => clearInterval(autoplayTimer);
+  }, [isPlaying, nextSlide]);
+
   return (
-    <div className="min-h-screen bg-[#FFF9F4] flex flex-col items-center justify-center px-4 py-16">
-      <h1 className="text-4xl md:text-5xl font-bold text-[#333] mb-16 text-center tracking-wide">
-        HEAR FROM OUR CUSTOMERS
-      </h1>
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white flex flex-col items-center justify-center px-4 py-16">
+      <div className="relative mb-12 text-center">
+        <div className="absolute inset-0 flex items-center justify-center opacity-5">
+          <Quote size={200} className="text-amber-800 transform rotate-6" />
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-3 relative">
+          Our Customers Love Us
+        </h1>
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto relative">
+          Discover why people trust our products to improve their everyday hygiene
+        </p>
+      </div>
 
       <div className="relative w-full max-w-7xl">
-        <div className="flex justify-center items-stretch gap-6 transition-transform ease-in-out duration-500">
+        <div className="flex justify-center items-stretch h-[420px] md:h-[380px]">
           {[-1, 0, 1].map((offset) => {
             const index = (currentIndex + offset + testimonials.length) % testimonials.length;
             const testimonial = testimonials[index];
             const isActive = offset === 0;
+            
+            const position = offset * 100;
+            const scale = isActive ? 1 : 0.85;
+            const opacity = isActive ? 1 : 0.7;
+            const zIndex = isActive ? 30 : 20;
 
             return (
               <div
                 key={testimonial.id}
-                className={`w-full max-w-md transform transition-all duration-500 ${isActive ? 'scale-100 opacity-100' : 'scale-90 opacity-50'}`}
+                className="absolute w-full max-w-md transition-all duration-500 ease-out"
+                style={{
+                  transform: `translateX(${position}px) scale(${scale})`,
+                  opacity,
+                  zIndex
+                }}
               >
-                <div className="bg-white rounded-2xl p-6 shadow-xl h-full flex flex-col items-center text-center">
-                  <div className="w-28 h-28 mb-4 overflow-hidden rounded-full border-4 border-yellow-300">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-full h-full object-cover"
-                    />
+                <div className="bg-white rounded-xl shadow-xl p-6 h-full group hover:shadow-2xl transition-all duration-300">
+                  <div className="relative flex flex-col h-full">
+                    <div className="flex items-center mb-4">
+                      <div className="relative w-20 h-20 rounded-full border-2 border-amber-400 overflow-hidden">
+                        <img
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="ml-4">
+                        <h3 className="text-xl font-semibold text-gray-800 group-hover:text-amber-700 transition-colors">
+                          {testimonial.name}
+                        </h3>
+                        <p className="text-sm text-gray-500">{testimonial.role}</p>
+                        <div className="flex mt-1">
+                          {[...Array(testimonial.rating)].map((_, i) => (
+                            <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="relative flex-grow">
+                      <p className="text-gray-700 text-base leading-relaxed italic">
+                        "{testimonial.comment}"
+                      </p>
+                      <div className="absolute -top-4 -right-4 text-gray-100 opacity-10 rotate-12 transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                        <Quote size={50} />
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex justify-center mb-3">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-800">{testimonial.name}</h3>
-                  <p className="text-sm text-gray-500 mb-4">{testimonial.role}</p>
-                  <p className="text-gray-700 italic text-base px-2">"{testimonial.comment}"</p>
                 </div>
               </div>
             );
           })}
         </div>
 
-        <button
-          onClick={prevSlide}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 md:p-3 rounded-full shadow-md hover:bg-gray-200 transition"
-        >
-          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-[#444]" />
-        </button>
+        <div className="absolute left-0 right-0 bottom-[-4.5rem] flex justify-center items-center gap-4">
+          <button
+            onClick={prevSlide}
+            className="p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
+            aria-label="Previous testimonial"
+          >
+            <ChevronLeft className="w-6 h-6 text-amber-700 group-hover:text-amber-900" />
+          </button>
 
-        <button
-          onClick={nextSlide}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white p-2 md:p-3 rounded-full shadow-md hover:bg-gray-200 transition"
-        >
-          <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-[#444]" />
-        </button>
+          <button
+            onClick={toggleAutoplay}
+            className="p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
+            aria-label={isPlaying ? "Pause autoplay" : "Start autoplay"}
+          >
+            {isPlaying ? (
+              <Pause className="w-6 h-6 text-amber-700 group-hover:text-amber-900" />
+            ) : (
+              <Play className="w-6 h-6 text-amber-700 group-hover:text-amber-900" />
+            )}
+          </button>
+
+          <button
+            onClick={nextSlide}
+            className="p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
+            aria-label="Next testimonial"
+          >
+            <ChevronRight className="w-6 h-6 text-amber-700 group-hover:text-amber-900" />
+          </button>
+        </div>
+
+        <div className="absolute left-0 right-0 bottom-[-7rem] flex justify-center gap-2">
+          {testimonials.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-2 rounded-full transition-all duration-300 focus:outline-none ${
+                currentIndex === idx ? "w-8 bg-amber-500" : "w-2 bg-amber-200 hover:bg-amber-300"
+              }`}
+              aria-label={`Go to testimonial ${idx + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
