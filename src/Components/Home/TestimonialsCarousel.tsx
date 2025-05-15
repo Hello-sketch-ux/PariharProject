@@ -49,11 +49,7 @@ const TestimonialsCarousel: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-<<<<<<< HEAD
   // const [scrollLeft, setScrollLeft] = useState(0);
-=======
-  const [scrollLeft, setScrollLeft] = useState(0);
->>>>>>> 6fa9a16a2c0df763986f3c8a056bb3f67ed8b659
 
   const nextSlide = useCallback(() => {
     if (!isAnimating) {
@@ -77,22 +73,14 @@ const TestimonialsCarousel: React.FC = () => {
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
-<<<<<<< HEAD
     setStartX(e.pageX );
-=======
-    setStartX(e.pageX - scrollLeft);
->>>>>>> 6fa9a16a2c0df763986f3c8a056bb3f67ed8b659
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - startX;
-<<<<<<< HEAD
     const walk = (x ) * 2; // Adjust sliding speed
-=======
-    const walk = (x - scrollLeft) * 2; // Adjust sliding speed
->>>>>>> 6fa9a16a2c0df763986f3c8a056bb3f67ed8b659
     if (Math.abs(walk) > 50) { // Threshold for slide change
       if (walk > 0) {
         prevSlide();
@@ -109,21 +97,13 @@ const TestimonialsCarousel: React.FC = () => {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsDragging(true);
-<<<<<<< HEAD
     setStartX(e.touches[0].pageX );
-=======
-    setStartX(e.touches[0].pageX - scrollLeft);
->>>>>>> 6fa9a16a2c0df763986f3c8a056bb3f67ed8b659
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
     const x = e.touches[0].pageX - startX;
-<<<<<<< HEAD
     const walk = (x ) * 2;
-=======
-    const walk = (x - scrollLeft) * 2;
->>>>>>> 6fa9a16a2c0df763986f3c8a056bb3f67ed8b659
     if (Math.abs(walk) > 50) {
       if (walk > 0) {
         prevSlide();
@@ -148,11 +128,7 @@ const TestimonialsCarousel: React.FC = () => {
   }, [isPlaying, isDragging, nextSlide]);
 
   return (
-<<<<<<< HEAD
     <div className="min-h-screen min-w-screen bg-gradient-to-b from-amber-50 to-white flex flex-col items-center justify-center px-4 py-16">
-=======
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white flex flex-col items-center justify-center px-4 py-16">
->>>>>>> 6fa9a16a2c0df763986f3c8a056bb3f67ed8b659
       <div className="relative mb-12 text-center">
         <div className="absolute inset-0 flex items-center justify-center opacity-5">
           <Quote size={200} className="text-amber-800 transform rotate-6" />
