@@ -95,56 +95,72 @@ const TestimonialsCarousel: React.FC = () => {
         </p>
       </div>
 
-      <div className="relative w-full max-w-7xl">
-        <div className="flex justify-center items-stretch h-[420px] md:h-[380px]">
+      <div className="relative w-full max-w-7xl overflow-hidden">
+        <div className="flex justify-center items-stretch min-h-[500px] sm:min-h-[420px] md:min-h-[380px]">
           {[-1, 0, 1].map((offset) => {
             const index = (currentIndex + offset + testimonials.length) % testimonials.length;
             const testimonial = testimonials[index];
             const isActive = offset === 0;
             
-            const position = offset * 100;
+            // Adjust positioning for different screen sizes
+            const xOffset = {
+              base: offset * 320, // Mobile
+              sm: offset * 340,   // Small screens
+              md: offset * 380,   // Medium screens
+              lg: offset * 400    // Large screens
+            };
+            
+            const position = window.innerWidth >= 1024 ? xOffset.lg :
+                           window.innerWidth >= 768 ? xOffset.md :
+                           window.innerWidth >= 640 ? xOffset.sm :
+                           xOffset.base;
+
             const scale = isActive ? 1 : 0.85;
             const opacity = isActive ? 1 : 0.7;
-            const zIndex = isActive ? 30 : 20;
+            const zIndex = isActive ? 30 : 20 - Math.abs(offset);
 
             return (
               <div
                 key={testimonial.id}
-                className="absolute w-full max-w-md transition-all duration-500 ease-out"
+                className={`
+                  absolute w-[280px] sm:w-[320px] md:w-[340px] lg:w-[360px]
+                  transition-all duration-500 ease-out
+                  ${isActive ? 'z-30' : 'z-20'}
+                `}
                 style={{
                   transform: `translateX(${position}px) scale(${scale})`,
                   opacity,
                   zIndex
                 }}
               >
-                <div className="bg-white rounded-xl shadow-xl p-6 h-full group hover:shadow-2xl transition-all duration-300">
+                <div className="bg-white rounded-xl shadow-xl p-4 sm:p-6 h-full group hover:shadow-2xl transition-all duration-300">
                   <div className="relative flex flex-col h-full">
                     <div className="flex items-center mb-4">
-                      <div className="relative w-20 h-20 rounded-full border-2 border-amber-400 overflow-hidden">
+                      <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-amber-400 overflow-hidden">
                         <img
                           src={testimonial.image}
                           alt={testimonial.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
-                      <div className="ml-4">
-                        <h3 className="text-xl font-semibold text-gray-800 group-hover:text-amber-700 transition-colors">
+                      <div className="ml-3 sm:ml-4">
+                        <h3 className="text-lg sm:text-xl font-semibold text-gray-800 group-hover:text-amber-700 transition-colors">
                           {testimonial.name}
                         </h3>
-                        <p className="text-sm text-gray-500">{testimonial.role}</p>
+                        <p className="text-xs sm:text-sm text-gray-500">{testimonial.role}</p>
                         <div className="flex mt-1">
                           {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                            <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 text-amber-400 fill-amber-400" />
                           ))}
                         </div>
                       </div>
                     </div>
                     <div className="relative flex-grow">
-                      <p className="text-gray-700 text-base leading-relaxed italic">
+                      <p className="text-sm sm:text-base text-gray-700 leading-relaxed italic line-clamp-6">
                         "{testimonial.comment}"
                       </p>
                       <div className="absolute -top-4 -right-4 text-gray-100 opacity-10 rotate-12 transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
-                        <Quote size={50} />
+                        <Quote size={40} className="sm:w-12 sm:h-12" />
                       </div>
                     </div>
                   </div>
@@ -154,43 +170,45 @@ const TestimonialsCarousel: React.FC = () => {
           })}
         </div>
 
+        {/* Controls */}
         <div className="absolute left-0 right-0 bottom-[-4.5rem] flex justify-center items-center gap-4">
           <button
             onClick={prevSlide}
-            className="p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
+            className="p-2 sm:p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
             aria-label="Previous testimonial"
           >
-            <ChevronLeft className="w-6 h-6 text-amber-700 group-hover:text-amber-900" />
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700 group-hover:text-amber-900" />
           </button>
 
           <button
             onClick={toggleAutoplay}
-            className="p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
+            className="p-2 sm:p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
             aria-label={isPlaying ? "Pause autoplay" : "Start autoplay"}
           >
             {isPlaying ? (
-              <Pause className="w-6 h-6 text-amber-700 group-hover:text-amber-900" />
+              <Pause className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700 group-hover:text-amber-900" />
             ) : (
-              <Play className="w-6 h-6 text-amber-700 group-hover:text-amber-900" />
+              <Play className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700 group-hover:text-amber-900" />
             )}
           </button>
 
           <button
             onClick={nextSlide}
-            className="p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
+            className="p-2 sm:p-3 rounded-full bg-white shadow-md hover:bg-amber-50 focus:ring-2 focus:ring-amber-200 transition-all duration-300 group"
             aria-label="Next testimonial"
           >
-            <ChevronRight className="w-6 h-6 text-amber-700 group-hover:text-amber-900" />
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700 group-hover:text-amber-900" />
           </button>
         </div>
 
-        <div className="absolute left-0 right-0 bottom-[-7rem] flex justify-center gap-2">
+        {/* Progress indicators */}
+        <div className="absolute left-0 right-0 bottom-[-7rem] flex justify-center gap-1 sm:gap-2 overflow-x-auto px-4">
           {testimonials.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`h-2 rounded-full transition-all duration-300 focus:outline-none ${
-                currentIndex === idx ? "w-8 bg-amber-500" : "w-2 bg-amber-200 hover:bg-amber-300"
+              className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 focus:outline-none ${
+                currentIndex === idx ? "w-6 sm:w-8 bg-amber-500" : "w-1.5 sm:w-2 bg-amber-200 hover:bg-amber-300"
               }`}
               aria-label={`Go to testimonial ${idx + 1}`}
             />
