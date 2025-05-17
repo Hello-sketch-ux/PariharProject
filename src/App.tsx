@@ -7,6 +7,7 @@ import Feedback from './Pages/Feedback';
 import ContactUs from './Pages/ContactUs';
 import Profile from './Pages/Profile';
 import Navbar from './Components/Navbar';
+import RestroomFinder from './Pages/RestroomFinder'
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -69,6 +70,10 @@ const App: React.FC = () => {
           <Route
             path="/contact"
             element={isLoggedIn ? <ContactUs /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/restroom-finder"
+            element={isLoggedIn ? <RestroomFinder /> : <Navigate to="/login" />}
           />
           <Route
             path="/profile"
