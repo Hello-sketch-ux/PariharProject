@@ -128,7 +128,7 @@ const TestimonialsCarousel: React.FC = () => {
   }, [isPlaying, isDragging, nextSlide]);
 
   return (
-    <div className="min-h-screen min-w-screen bg-gradient-to-b from-amber-50 to-white flex flex-col items-center justify-center px-4 py-16">
+    <div className="min-h-screen min-w-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-16">
       <div className="relative mb-12 text-center">
         <div className="absolute inset-0 flex items-center justify-center opacity-5">
           <Quote size={200} className="text-amber-800 transform rotate-6" />
