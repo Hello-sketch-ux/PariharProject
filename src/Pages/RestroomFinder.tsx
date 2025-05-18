@@ -21,9 +21,10 @@ export default function RestroomFinder() {
       setIsScriptLoaded(true);
       return;
     }
+    const googleApi = import.meta.env.VITE_GOOGLE_API_KEY;
 
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBrim6Wa_pmYXf8bU9giZcIMF7tflp3Pks&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleApi}&libraries=places`;
     script.async = true;
     script.defer = true;
     script.onload = () => setIsScriptLoaded(true);
@@ -335,61 +336,61 @@ export default function RestroomFinder() {
   };
 
   return (
-  <div className="w-screen h-screen flex flex-col relative">
-    <header className="flex flex-col md:flex-row justify-between items-center bg-black text-white p-4 sticky top-0 z-10">
-      <h1 className="text-base md:text-2xl font-semibold text-center max-w-full mb-2 md:mb-0">
-        Find A Restroom Certified By Parihar India
-      </h1>
-      <input
-        ref={inputRef}
-        type="text"
-        placeholder="Enter your location"
-        className="bg-zinc-800 text-white rounded-full px-4 py-2 w-full max-w-md focus:outline-white"
-        style={{ minWidth: 0 }}
-      />
-    </header>
-    <div ref={mapRef} className="flex-1 w-full" id="map" />
-    <button
-      onClick={findRestrooms}
-      disabled={!searchedLocation || isLoading}
-      className={`fixed bottom-5 left-7 transform -translate-x-1/2 md:left-[40vw] md:translate-x-0 px-6 py-3 text-white rounded-full shadow-md transition-colors z-20 focus:outline-none text-sm md:text-base ${isLoading ? "bg-gray-500 cursor-not-allowed" : "bg-black hover:bg-green-600"
-        }`}
-      style={{ minWidth: 160 }}
-    >
-      {isLoading ? "Searching..." : "Show Certified Restrooms"}
-    </button>
+    <div className="w-screen h-screen flex flex-col relative">
+      <header className="flex flex-col md:flex-row justify-between items-center bg-black text-white p-4 sticky top-0 z-10">
+        <h1 className="text-base md:text-2xl font-semibold text-center max-w-full mb-2 md:mb-0">
+          Find A Restroom Certified By Parihar India
+        </h1>
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Enter your location"
+          className="bg-zinc-800 text-white rounded-full px-4 py-2 w-full max-w-md focus:outline-white"
+          style={{ minWidth: 0 }}
+        />
+      </header>
+      <div ref={mapRef} className="flex-1 w-full" id="map" />
+      <button
+        onClick={findRestrooms}
+        disabled={!searchedLocation || isLoading}
+        className={`fixed bottom-5 left-7 transform -translate-x-1/2 md:left-[40vw] md:translate-x-0 px-6 py-3 text-white rounded-full shadow-md transition-colors z-20 focus:outline-none text-sm md:text-base ${isLoading ? "bg-gray-500 cursor-not-allowed" : "bg-black hover:bg-green-600"
+          }`}
+        style={{ minWidth: 160 }}
+      >
+        {isLoading ? "Searching..." : "Show Certified Restrooms"}
+      </button>
 
-    {/* Legend Box - fixed at bottom right */}
-    {/* Legend Box - fixed bottom right, responsive size and style */}
-<div
-  className="fixed bottom-20 right-4 md:bottom-5 md:right-5 bg-white bg-opacity-95 rounded-lg shadow-lg p-3 md:p-4 w-36 md:w-48 text-xs md:text-sm z-20 border border-gray-300"
-  style={{ backdropFilter: "saturate(180%) blur(10px)" }}
->
-  <h4 className="font-semibold mb-2 text-gray-900">Restroom</h4>
-  <div className="flex items-center mb-2">
-    <div
-      className="w-5 h-5 rounded-full mr-3"
-      style={{ backgroundColor: "green" }}
-    />
-    <span className="leading-tight text-gray-800">Public Restroom</span>
-  </div>
-  <div className="flex items-center mb-2">
-    <div
-      className="w-5 h-5 rounded-full mr-3"
-      style={{ backgroundColor: "blue" }}
-    />
-    <span className="leading-tight text-gray-800">Mall Restroom</span>
-  </div>
-  <div className="flex items-center">
-    <div
-      className="w-5 h-5 rounded-full mr-3"
-      style={{ backgroundColor: "red" }}
-    />
-    <span className="leading-tight text-gray-800">Restaurant Restroom</span>
-  </div>
-</div>
+      {/* Legend Box - fixed at bottom right */}
+      {/* Legend Box - fixed bottom right, responsive size and style */}
+      <div
+        className="fixed bottom-20 right-4 md:bottom-5 md:right-5 bg-white bg-opacity-95 rounded-lg shadow-lg p-3 md:p-4 w-36 md:w-48 text-xs md:text-sm z-20 border border-gray-300"
+        style={{ backdropFilter: "saturate(180%) blur(10px)" }}
+      >
+        <h4 className="font-semibold mb-2 text-gray-900">Restroom</h4>
+        <div className="flex items-center mb-2">
+          <div
+            className="w-5 h-5 rounded-full mr-3"
+            style={{ backgroundColor: "green" }}
+          />
+          <span className="leading-tight text-gray-800">Public Restroom</span>
+        </div>
+        <div className="flex items-center mb-2">
+          <div
+            className="w-5 h-5 rounded-full mr-3"
+            style={{ backgroundColor: "blue" }}
+          />
+          <span className="leading-tight text-gray-800">Mall Restroom</span>
+        </div>
+        <div className="flex items-center">
+          <div
+            className="w-5 h-5 rounded-full mr-3"
+            style={{ backgroundColor: "red" }}
+          />
+          <span className="leading-tight text-gray-800">Restaurant Restroom</span>
+        </div>
+      </div>
 
-  </div>
-);
+    </div>
+  );
 
 }
