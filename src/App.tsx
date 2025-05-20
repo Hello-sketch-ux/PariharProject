@@ -62,7 +62,7 @@ const App: React.FC = () => {
           />
           <Route
             path="/about"
-            element={<About></About>}
+            element={<About/>>}
           />
           <Route
             path="/dashboard"
