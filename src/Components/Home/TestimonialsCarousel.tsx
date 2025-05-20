@@ -1,7 +1,6 @@
 import React from 'react';
 import { Star, Quote } from 'lucide-react';
 
-// Importing images
 import nileshma from '../../Components/Home/assets/nileshma.jpg';
 import aishwarya from '../../Components/Home/assets/aishwarya.jpg';
 import priyanka from '../../Components/Home/assets/priyanka.jpg';
@@ -17,16 +16,7 @@ import shubhangi from '../../Components/Home/assets/subhangi.jpg';
 import kalpana from '../../Components/Home/assets/kalpana.jpg';
 import purva from '../../Components/Home/assets/purva.jpg';
 
-interface Testimonial {
-  id: number;
-  name: string;
-  role: string;
-  image: string;
-  rating: number;
-  comment: string;
-}
-
-const testimonials: Testimonial[] = [
+const testimonials = [
   { id: 1, name: "Dr. Nileshma Pandey", role: "Gynaecologist", image: nileshma, rating: 5, comment: "Various patients and their relatives contact UTIs just by using the public restrooms at hospitals and path labs, through this product clean restrooms can be spotted and such diseases can be prevented" },
   { id: 2, name: "Dr. Aishwarya", role: "Gynaecologist, RML", image: aishwarya, rating: 5, comment: "Product is great for our personal use as using washrooms in hospitals can lead to various infections and UTIs and this can prevent those." },
   { id: 3, name: "Ms. Priyanka", role: "Teacher", image: priyanka, rating: 5, comment: "Budget friendly and easily accessible" },
@@ -45,40 +35,44 @@ const testimonials: Testimonial[] = [
 
 const TestimonialsCarousel: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-16">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Our Customers Love Us</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Discover why people trust our products to improve their everyday hygiene
+    <div className="bg-gray-50 py-12 px-4 md:px-8">
+      <div className="text-center mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Our Customers Love Us</h2>
+        <p className="text-gray-600 mt-2 max-w-xl mx-auto">
+          Hear directly from the people who use our hygiene solutions every day.
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-7xl mx-auto">
-        {testimonials.map((testimonial) => (
-          <div
-            key={testimonial.id}
-            className="bg-white rounded-xl shadow-md p-6 flex flex-col h-full hover:shadow-lg transition"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400">
-                <img src={testimonial.image} alt={testimonial.name} className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800">{testimonial.name}</h3>
-                <p className="text-sm text-gray-500">{testimonial.role}</p>
-                <div className="flex mt-1">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                  ))}
+      <div className="overflow-x-auto">
+        <div className="flex space-x-6 pb-4 px-2 snap-x snap-mandatory scroll-smooth">
+          {testimonials.map((testimonial) => (
+            <div
+              key={testimonial.id}
+              className="min-w-[300px] max-w-sm bg-white rounded-xl shadow-md p-5 flex-shrink-0 snap-center"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-amber-400">
+                  <img src={testimonial.image} alt={testimonial.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h3 className="text-md font-semibold text-gray-800">{testimonial.name}</h3>
+                  <p className="text-sm text-gray-500">{testimonial.role}</p>
+                  <div className="flex mt-1">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                    ))}
+                  </div>
                 </div>
               </div>
+              <div className="relative">
+                <p className="text-gray-700 text-sm italic leading-relaxed line-clamp-5">
+                  "{testimonial.comment}"
+                </p>
+                <Quote className="absolute bottom-1 right-1 text-gray-100 opacity-10 rotate-12 w-6 h-6" />
+              </div>
             </div>
-            <div className="flex-grow relative">
-              <p className="text-gray-700 text-sm italic leading-relaxed line-clamp-6">"{testimonial.comment}"</p>
-              <Quote className="absolute bottom-2 right-2 text-gray-100 opacity-10 rotate-12 w-8 h-8" />
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
