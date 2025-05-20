@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ProductCardProps {
   id: number;
   title: string;
   price: number;
   originalPrice: number;
-  imageUrl: string;
+  imageUrls: string[];
   description: string;
   category: string;
 }
@@ -17,14 +17,24 @@ export default function ProductCard({
   title, 
   price, 
   originalPrice, 
-  imageUrl,
+  imageUrls,
   description,
   category 
 }: ProductCardProps) {
   const { state, dispatch } = useCart();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const itemInCart = state.items.find(item => item.id === id);
   const quantity = itemInCart?.quantity || 0;
+
+  // Auto slideshow
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % imageUrls.length);
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, [imageUrls.length]);
 
   const handleIncrement = () => {
     dispatch({
@@ -33,7 +43,7 @@ export default function ProductCard({
         id,
         title,
         price,
-        imageUrl,
+        imageUrl: imageUrls[0],
         quantity: 1
       }
     });
@@ -51,13 +61,49 @@ export default function ProductCard({
     }
   };
 
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % imageUrls.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + imageUrls.length) % imageUrls.length);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105">
-      <img
-        src={imageUrl}
-        alt={title}
-        className="w-full h-64 object-cover"
-      />
+      <div className="relative">
+        <img
+          src={imageUrls[currentImageIndex]}
+          alt={title}
+          className="w-full h-64 object-cover"
+        />
+        {imageUrls.length > 1 && (
+          <>
+            <button 
+              onClick={prevImage}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1 rounded-full hover:bg-black/70 transition-colors"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button 
+              onClick={nextImage}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1 rounded-full hover:bg-black/70 transition-colors"
+            >
+              <ChevronRight size={20} />
+            </button>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {imageUrls.map((_, index) => (
+                <div 
+                  key={index}
+                  className={`w-2 h-2 rounded-full ${
+                    currentImageIndex === index ? 'bg-white' : 'bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
       <div className="p-4">
         <div className="flex items-center gap-2 mb-2">
           <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-sm">

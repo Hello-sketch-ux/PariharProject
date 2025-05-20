@@ -128,24 +128,10 @@ export default function Home() {
         {/* Featured Products Grid */}
         <div className="px-4">
           <h3 className="text-lg font-semibold mb-4">FEATURED PRODUCTS</h3>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-4">
             {filteredProducts.map(product => (
               <div key={product.id} className="bg-white rounded-lg overflow-hidden border border-black">
-                <div className="aspect-square">
-                  <img
-                    src={product.imageUrl}
-                    alt={product.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-2">
-                  <h4 className="text-sm truncate">{product.title}</h4>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-sm font-semibold">₹{product.price}</span>
-                    <span className="text-xs text-gray-500 line-through">₹{product.originalPrice}</span>
-                  </div>
-                  <ProductCard {...product} />
-                </div>
+                <ProductCard {...product} />
               </div>
             ))}
           </div>
