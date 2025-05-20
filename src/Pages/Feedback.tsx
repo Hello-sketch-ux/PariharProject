@@ -1,27 +1,50 @@
 import React, { useState } from 'react';
 import { MessageSquare, Send } from 'lucide-react';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+
 
 const Feedback: React.FC = () => {
+
+  const token = localStorage.getItem("token");
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [rating, setRating] = useState<number>(0);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     // In a real app, you would send this data to a backend
     console.log({ name, email, rating, message });
     setSubmitted(true);
-    
-    // Reset form after submission
-    setTimeout(() => {
-      setName('');
-      setEmail('');
-      setRating(0);
-      setMessage('');
-      setSubmitted(false);
-    }, 3000);
+
+    toast.loading("Loading...");
+
+    try {
+      const res = await axios.post('http://localhost:5000/api/feedback', {
+        name,
+        email,
+        rating,
+        message
+      },
+      {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+      }
+    );
+
+      console.log(res);
+
+      toast.dismiss();
+      toast.success(res?.data?.message || "Feedback is submitted successfully");
+
+    } catch (err) {
+        toast.dismiss();
+        toast.error(err?.response?.data?.message || "Something went wrong.");
+    }
   };
 
   return (

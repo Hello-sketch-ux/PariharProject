@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { User, Mail, Phone, MapPin, Calendar, Shield, Edit2, Save, X } from 'lucide-react';
+import axios from "axios";
+import { toast } from 'react-toastify';
 
 interface UserData {
   firstName: string;
@@ -13,11 +15,14 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ userData }) => {
+
+  const token = localStorage.getItem('token');
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     firstName: userData.firstName,
     lastName: userData.lastName,
     mobile: userData.mobile,
+    email : userData.email,
     address: 'New Delhi, India',
     dob: '1990-01-01',
     bio: 'I am a valued customer of Parihar India.'
@@ -31,17 +36,42 @@ const Profile: React.FC<ProfileProps> = ({ userData }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would send this data to a backend
-    setIsEditing(false);
+    console.log("sormData :" , formData);
+    toast.loading("Loading...");
+
+    try {
+        const res = await axios.post(
+          'http://localhost:5000/api/updateProfile',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+        toast.dismiss();
+        toast.success(res?.data?.message);
+
+    } catch (err) {
+      console.error('Error:', err);
+      toast.dismiss();
+      toast.error(err?.response?.data?.message);
+    }
+    finally{
+      setIsEditing(false);
+    }
   };
+    
 
   const cancelEdit = () => {
     setFormData({
       firstName: userData.firstName,
       lastName: userData.lastName,
       mobile: userData.mobile,
+      email : userData.email,
       address: 'New Delhi, India',
       dob: '1990-01-01',
       bio: 'I am a valued customer of Parihar India.'

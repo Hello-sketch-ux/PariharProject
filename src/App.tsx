@@ -7,6 +7,8 @@ import Feedback from './Pages/Feedback';
 import ContactUs from './Pages/ContactUs';
 import Profile from './Pages/Profile';
 import Navbar from './Components/Navbar';
+import { ToastContainer } from 'react-toastify';
+
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -76,6 +78,7 @@ const App: React.FC = () => {
           />
         </Routes>
       </div>
+      <ToastContainer/>
     </Router>
   );
 };
