@@ -7,9 +7,9 @@ import Feedback from './Pages/Feedback';
 import ContactUs from './Pages/ContactUs';
 import Profile from './Pages/Profile';
 import Navbar from './Components/Navbar';
+import About from './Components/Home/about'
+import RestroomFinder from './Pages/RestroomFinder'
 import { ToastContainer } from 'react-toastify';
-
-
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({
@@ -61,6 +61,10 @@ const App: React.FC = () => {
             element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
           />
           <Route
+            path="/about"
+            element={<About/>}
+          />
+          <Route
             path="/dashboard"
             element={isLoggedIn ? <Dashboard userData={userData} /> : <Navigate to="/login" />}
           />
@@ -71,6 +75,10 @@ const App: React.FC = () => {
           <Route
             path="/contact"
             element={isLoggedIn ? <ContactUs /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/restroom-finder"
+            element={isLoggedIn ? <RestroomFinder /> : <Navigate to="/login" />}
           />
           <Route
             path="/profile"

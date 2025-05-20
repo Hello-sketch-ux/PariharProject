@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "Backend/server.js"]
+  "include": ["src", "Backend/server.js", "src/Components/conf"]
 }
