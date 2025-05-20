@@ -150,16 +150,18 @@ const TestimonialsCarousel: React.FC = () => {
                   zIndex: isActive ? 30 : 20
                 }}
               >
-                <div className="bg-white rounded-xl shadow-lg p-6 w-80">
-                  <img src={testimonial.image} alt={testimonial.name} className="w-16 h-16 rounded-full mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-center">{testimonial.name}</h3>
-                  <p className="text-sm text-center text-gray-500">{testimonial.role}</p>
-                  <div className="flex justify-center mt-2 mb-4">
-                    {Array.from({ length: testimonial.rating }).map((_, i) => (
-                      <Star key={i} size={18} className="text-yellow-400 fill-yellow-400" />
-                    ))}
+                <div className="bg-blue-50 rounded-xl shadow-lg p-6 w-80 h-96 flex flex-col justify-between">
+                  <div>
+                    <img src={testimonial.image} alt={testimonial.name} className="w-16 h-16 rounded-full mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-center">{testimonial.name}</h3>
+                    <p className="text-sm text-center text-gray-500">{testimonial.role}</p>
+                    <div className="flex justify-center mt-2 mb-4">
+                      {Array.from({ length: testimonial.rating }).map((_, i) => (
+                        <Star key={i} size={18} className="text-yellow-400 fill-yellow-400" />
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-gray-700 text-center text-sm italic">“{testimonial.comment}”</p>
+                  <p className="text-gray-700 text-center text-sm italic mt-2">“{testimonial.comment}”</p>
                 </div>
               </div>
             );
