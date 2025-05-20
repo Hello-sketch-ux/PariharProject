@@ -7,6 +7,7 @@ import Feedback from './Pages/Feedback';
 import ContactUs from './Pages/ContactUs';
 import Profile from './Pages/Profile';
 import Navbar from './Components/Navbar';
+import About from './Components/Home/about'
 import RestroomFinder from './Pages/RestroomFinder'
 
 const App: React.FC = () => {
@@ -58,6 +59,10 @@ const App: React.FC = () => {
           <Route
             path="/login"
             element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
+          />
+          <Route
+            path="/about"
+            element={<About></About>}
           />
           <Route
             path="/dashboard"
