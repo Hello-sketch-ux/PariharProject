@@ -7,9 +7,14 @@ import Feedback from './Pages/Feedback';
 import ContactUs from './Pages/ContactUs';
 import Profile from './Pages/Profile';
 import Navbar from './Components/Navbar';
-import About from './Components/Home/about'
-import RestroomFinder from './Pages/RestroomFinder'
+import About from './Components/Home/About';
+import RestroomFinder from './Pages/RestroomFinder';
 import { ToastContainer } from 'react-toastify';
+import { CartProvider } from './Components/Ecommerce/context/CartContext';
+import EcommerceHome from './Components/Ecommerce/pages/Home';
+import Checkout from './Components/Ecommerce/pages/Checkout';
+import Header from './Components/Ecommerce/Header';
+
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({
@@ -55,38 +60,42 @@ const App: React.FC = () => {
       <NavbarWrapper />
       <div className="min-h-screen bg-gray-50">
         <Routes>
+          {/* General App Routes */}
           <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+          <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/dashboard" element={isLoggedIn ? <Dashboard userData={userData} /> : <Navigate to="/login" />} />
+          <Route path="/feedback" element={isLoggedIn ? <Feedback /> : <Navigate to="/login" />} />
+          <Route path="/contact" element={isLoggedIn ? <ContactUs /> : <Navigate to="/login" />} />
+          <Route path="/restroom-finder" element={isLoggedIn ? <RestroomFinder /> : <Navigate to="/login" />} />
+          <Route path="/profile" element={isLoggedIn ? <Profile userData={userData} /> : <Navigate to="/login" />} />
+
+          {/* Shop Routes (wrapped in CartProvider) */}
           <Route
-            path="/login"
-            element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
+            path="/shop"
+            element={
+              <CartProvider>
+                <>
+                  <Header />
+                  <EcommerceHome />
+                </>
+              </CartProvider>
+            }
           />
           <Route
-            path="/about"
-            element={<About/>}
-          />
-          <Route
-            path="/dashboard"
-            element={isLoggedIn ? <Dashboard userData={userData} /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/feedback"
-            element={isLoggedIn ? <Feedback /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/contact"
-            element={isLoggedIn ? <ContactUs /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/restroom-finder"
-            element={isLoggedIn ? <RestroomFinder /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/profile"
-            element={isLoggedIn ? <Profile userData={userData} /> : <Navigate to="/login" />}
+            path="/checkout"
+            element={
+              <CartProvider>
+                <>
+                  <Header />
+                  <Checkout />
+                </>
+              </CartProvider>
+            }
           />
         </Routes>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </Router>
   );
 };

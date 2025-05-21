@@ -1,11 +1,14 @@
 // server.js
-const dotenv = require('dotenv');
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const cookieParser = require('cookie-parser');
+import { Order } from './models/Order.js';
+import dotenv from "dotenv"
+import express from "express"
+import mongoose from "mongoose"
+import cors from "cors"
+import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt"
+import cookieParser from "cookie-parser"
+
+
 
 dotenv.config();
 
@@ -197,6 +200,23 @@ app.post('/api/updateProfile' , async(req,res)=>
 
     }
 })
+
+app.post('/api/orders', async (req, res) => {
+  try {
+    console.log('Received order data:', req.body);
+    const order = new Order(req.body);
+    const savedOrder = await order.save();
+    console.log('Order saved successfully:', savedOrder);
+    res.status(201).json({ success: true, order: savedOrder });
+  } catch (error) {
+    console.error('Error saving order:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: error.message,
+      details: error
+    });
+  }
+});
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);

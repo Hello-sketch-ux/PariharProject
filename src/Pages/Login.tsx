@@ -49,6 +49,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       }
     } catch (error) {
       setError('Server error. Please try again.');
+      console.log(error)
     }
   };
 

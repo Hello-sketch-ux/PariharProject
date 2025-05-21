@@ -195,30 +195,9 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
 
         {/* Problems Section */}
         <Heading content="Problems We Saw" color="green" underline={true} />
-<<<<<<< HEAD
         <ProblemSolutionCard heading="Hygiene and Germ Protection" imagePosition="left" content="At Parihar India, we believe that true health goes beyond the mere absence of disease—it’s the harmony of complete physical, mental, and social well-being. Our mission is to empower individuals to achieve holistic health through our comprehensive services, innovative wellness programs, and patient education initiatives. By fostering a culture of wellness, we aim to create healthier communities and improve lives, one individual at a time." imageUrl={germsAndProtection} />
         <ProblemSolutionCard heading="Cross Contamination" imagePosition="right" content="Public restrooms pose a constant risk of cross-contamination, where individuals may unknowingly come into contact with germs left behind by others. At Parihar , we are committed to mitigating this risk by providing innovative hygiene solutions that ensure a cleaner, safer restroom experience for everyone. Our products are designed to minimize exposure to harmful bacteria, promoting health and peace of mind in shared spaces." imageUrl={crossContamination} />
         <ProblemSolutionCard heading="Obsolete Products" imagePosition="left" content="Traditional paper seat covers frequently fail to offer the protection and comfort users expect, often resulting in unsatisfactory and uncomfortable restroom experiences. At Parihar, we recognize the need for a more reliable solution. Our innovative products are designed to provide superior hygiene, comfort, and peace of mind, ensuring that every restroom visit is safe and satisfying." imageUrl={obsoleteProducts} />
-=======
-        <ProblemSolutionCard
-          heading="Hygiene and Germ Protection"
-          imagePosition="left"
-          content="Our products protect against harmful germs."
-          imageUrl={germsAndProtection}
-        />
-        <ProblemSolutionCard
-          heading="Cross Contamination"
-          imagePosition="right"
-          content="Minimizing the risk in public restrooms."
-          imageUrl={crossContamination}
-        />
-        <ProblemSolutionCard
-          heading="Obsolete Products"
-          imagePosition="left"
-          content="Traditional products fail to provide necessary protection."
-          imageUrl={obsoleteProducts}
-        />
->>>>>>> a3f6480059a876a78eca6bc3ccf54c6de0b99ee3
 
         {/* Problems Society Faces Section */}
         <Heading

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MessageSquare, Send } from 'lucide-react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 
 
 const Feedback: React.FC = () => {
@@ -13,7 +13,7 @@ const Feedback: React.FC = () => {
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // In a real app, you would send this data to a backend
     console.log({ name, email, rating, message });
@@ -28,22 +28,24 @@ const Feedback: React.FC = () => {
         rating,
         message
       },
-      {
+        {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
-      }
-    );
+        }
+      );
 
       console.log(res);
 
       toast.dismiss();
       toast.success(res?.data?.message || "Feedback is submitted successfully");
 
-    } catch (err) {
-        toast.dismiss();
-        toast.error(err?.response?.data?.message || "Something went wrong.");
+    }
+    catch (err: unknown) {
+      toast.dismiss();
+      const error = err as AxiosError<{ message: string }>;
+      toast.error(error?.response?.data?.message || "Something went wrong.");
     }
   };
 
@@ -128,9 +130,8 @@ const Feedback: React.FC = () => {
                       className="focus:outline-none"
                     >
                       <svg
-                        className={`h-8 w-8 ${
-                          star <= rating ? 'text-yellow-400' : 'text-gray-300'
-                        }`}
+                        className={`h-8 w-8 ${star <= rating ? 'text-yellow-400' : 'text-gray-300'
+                          }`}
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
