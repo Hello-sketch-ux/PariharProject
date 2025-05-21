@@ -1,3 +1,4 @@
 node_modules
 server2.js
 .env
+Backend/.env
