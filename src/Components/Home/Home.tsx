@@ -191,7 +191,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
           Certified By Parihar India
         </p>
 
-        <Button content="FIND" />
+        <Button path="restroom-finder" content="FIND" />
 
         {/* Problems Section */}
         <Heading content="Problems We Saw" color="green" underline={true} />
@@ -219,7 +219,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
         <p className="flex justify-center items-center color-gray-400">
           Certified By Parihar India
         </p>
-        <Button content="VISIT" />
+        <Button path="shop" content="VISIT"/>
 
         {/* Contact Us & Testimonials */}
         <TestimonialsCarousel />
