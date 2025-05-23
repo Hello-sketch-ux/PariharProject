@@ -22,7 +22,7 @@ const Feedback: React.FC = () => {
     toast.loading("Loading...");
 
     try {
-      const res = await axios.post('http://localhost:5000/api/feedback', {
+      const res = await axios.post('http://pariharproject-production.up.railway.app/api/feedback', {
         name,
         email,
         rating,
