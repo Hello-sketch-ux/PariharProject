@@ -43,7 +43,7 @@ const Profile: React.FC<ProfileProps> = ({ userData }) => {
 
     try {
       const res = await axios.post(
-        'http://pariharproject-production.up.railway.app/api/updateProfile',
+        'https://pariharproject-production.up.railway.app/api/updateProfile',
         formData,
         {
           headers: {
