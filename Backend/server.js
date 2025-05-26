@@ -16,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-const allowedOrigins = ['http://localhost:5173', 'https://www.pariharindia.com', "https://parihar-project.vercel.app/"];
+const allowedOrigins = ['http://localhost:5173', 'https://www.pariharindia.com', "https://parihar-project.vercel.app/", 'https://pariharproject-production.up.railway.app/'];
 
 app.use(cors({
   origin: allowedOrigins,
