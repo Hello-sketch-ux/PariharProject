@@ -30,7 +30,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
     try {
       const response = await fetch('https://pariharback-production.up.railway.app/api/auth/login', {
-        method: 'POST',
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstName, lastName, email, mobile, password }),
       });
