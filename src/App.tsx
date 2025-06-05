@@ -67,7 +67,7 @@ const App: React.FC = () => {
           <Route path="/dashboard" element={isLoggedIn ? <Dashboard userData={userData} /> : <Navigate to="/login" />} />
           <Route path="/feedback" element={isLoggedIn ? <Feedback /> : <Navigate to="/login" />} />
           <Route path="/contact" element={isLoggedIn ? <ContactUs /> : <Navigate to="/login" />} />
-          <Route path="/restroom-finder" element={isLoggedIn ? <RestroomFinder /> : <Navigate to="/login" />} />
+          <Route path="/restroom-finder" element={<RestroomFinder/>} />
           <Route path="/profile" element={isLoggedIn ? <Profile userData={userData} /> : <Navigate to="/login" />} />
 
           {/* Shop Routes (wrapped in CartProvider) */}
