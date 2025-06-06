@@ -27,6 +27,7 @@ const Profile: React.FC<ProfileProps> = ({ userData }) => {
     dob: '1990-01-01',
     bio: 'I am a valued customer of Parihar India.'
   });
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,7 +44,7 @@ const Profile: React.FC<ProfileProps> = ({ userData }) => {
 
     try {
       const res = await axios.post(
-        'https://pariharback-production.up.railway.app/api/updateProfile',
+        `${apiUrl}/api/updateProfile`,
         formData,
         {
           headers: {

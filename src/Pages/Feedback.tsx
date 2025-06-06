@@ -12,6 +12,7 @@ const Feedback: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ const Feedback: React.FC = () => {
     toast.loading("Loading...");
 
     try {
-      const res = await axios.post('https://pariharback-production.up.railway.app/api/feedback', {
+      const res = await axios.post(`${apiUrl}/api/feedback`, {
         name,
         email,
         rating,
