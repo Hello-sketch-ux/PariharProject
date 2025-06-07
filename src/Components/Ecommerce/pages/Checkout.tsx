@@ -15,6 +15,7 @@ export default function Checkout() {
     phone: "+91 9XXXXXXXX",
     email: "email@example.com"
   });
+  const apiUrl = import.meta.env.VITE_API_URL
 
   const handleUpdateQuantity = (id: number, newQuantity: number) => {
     if (newQuantity < 1) return;
@@ -51,7 +52,7 @@ export default function Checkout() {
         finalAmount: state.total - 150
       };
 
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch(`${apiUrl}/api/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
