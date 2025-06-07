@@ -55,6 +55,7 @@ type ChatbotProps = {
                 bulk: 'Yes, we provide bulk orders for businesses, offices, and institutions at special pricing. Contact our sales team for details.',
                 contact: 'You can reach us via email, phone, or our chatbot for assistance with orders, partnerships, or product inquiries.',
                 default: 'I apologize, but I don\'t have specific information about that. Please contact our customer support for more details.',
+                finder: 'Our app helps you find clean, Parihar-certified restrooms near you using real-time location tracking and user reviews.',
               };
               
               const query = content.toLowerCase();
