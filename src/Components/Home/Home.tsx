@@ -222,7 +222,9 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
         <Button path="shop" content="VISIT"/>
 
         {/* Contact Us & Testimonials */}
+        <div className="w-full overflow-x-visible">
         <TestimonialsCarousel />
+      </div>
         <ContactUs />
 
         {/* Subscribe Section */}
