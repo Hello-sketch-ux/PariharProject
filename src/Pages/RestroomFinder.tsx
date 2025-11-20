@@ -160,17 +160,17 @@ export default function RestroomFinder() {
       const [restrooms, malls, restaurants] = await Promise.all([
         searchPlaces(service, {
           location: searchedLocation,
-          radius: 500,
+          radius: 2000,
           keyword: "restroom",
         }),
         searchPlaces(service, {
           location: searchedLocation,
-          radius: 500,
+          radius: 2000,
           type: "shopping_mall",
         }),
         searchPlaces(service, {
           location: searchedLocation,
-          radius: 500,
+          radius: 2000,
           type: "restaurant",
         }),
       ]);
