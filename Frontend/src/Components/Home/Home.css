@@ -1,0 +1,36 @@
+.MV{
+   
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap; 
+}
+
+.news-container
+{
+    display: flex;
+    justify-content: center;
+    margin:2rem 0rem;
+    padding: 0 5rem 0 5rem; 
+}
+
+
+@media(min-width:769px){
+    .MV{
+        gap: 2rem;
+    }
+}
+
+@media(max-width:768px){
+    .MV{margin: 1.5rem;}
+}
+
+@media(max-width:1050px){
+    
+    .news-container{
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0 3rem 0 3rem; 
+        margin:1.5rem 0 0 0;
+    }
+}

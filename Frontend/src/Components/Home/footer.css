@@ -1,0 +1,39 @@
+.containerF{
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    color: white;
+    padding-bottom:1rem;
+}
+
+.tagCont{
+   padding: 1.5rem;
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+   
+}
+
+.tags{
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding-top: 2rem;
+    
+}
+
+.copyright{
+    opacity: 0.7;
+    padding: 0.5rem;
+}
+@media(max-width:768px){
+    .tags{
+        padding-top: 1.5rem;
+        font-size: 11px;
+    }
+    .heading{
+        font-size: 20px;
+    }
+}
