@@ -27,24 +27,36 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!firstName || !email || !mobile || !password) {
+    if (!firstName.trim() || !email.trim() || !mobile.trim() || !password.trim()) {
       setError('Please fill in all required fields');
       return;
     }
 
     try {
+      const payload = {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
+        mobile: mobile.trim(),
+        password: password.trim()
+      };
+
+      console.log("Login request payload:", payload);
+      console.log("API URL:", apiUrl);
+
       const response = await fetch(`${apiUrl}/api/auth/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
       
       console.log("Login response status:", response.status);
+      console.log("Login response headers:", response.headers);
       console.log("Login response data:", data);
 
-      if (response.ok) {
+      if (response.ok && data.token) {
         localStorage.setItem("token", data.token);
         localStorage.setItem(
           "user",
@@ -54,9 +66,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         onLogin({ firstName, lastName, email, mobile });
         navigate('/');
       } else {
-        const errorMsg = data.message || data.error || 'Login failed.';
+        const errorMsg = data.message || data.error || JSON.stringify(data) || 'Login failed.';
         setError(errorMsg);
-        console.error("Login error:", errorMsg, data);
+        console.error("Login error details:", { status: response.status, data, errorMsg });
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Server error. Please try again.';
