@@ -4,47 +4,124 @@ import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 
 const Feedback: React.FC = () => {
-  const token = localStorage.getItem("token");
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [rating, setRating] = useState<number>(0);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
+  // ✅ Client-side validation
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    if (!name.trim() || name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim() || !emailRegex.test(email)) {
+      newErrors.email = "Valid email is required";
+    }
+
+    if (!rating || rating < 1 || rating > 5) {
+      newErrors.rating = "Please select a rating (1-5)";
+    }
+
+    if (!message.trim() || message.trim().length < 5) {
+      newErrors.message = "Feedback must be at least 5 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
 
-    toast.loading("Loading...");
+    // ✅ Validate form first
+    if (!validateForm()) {
+      toast.error("Please fix the errors below");
+      return;
+    }
+
+    setIsLoading(true);
+    const toastId = toast.loading("Submitting feedback...");
 
     try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        toast.error("You must be logged in to submit feedback");
+        setIsLoading(false);
+        return;
+      }
+
       const res = await axios.post(
         `${apiUrl}/api/feedback`,
-        { name, email, rating, message },
+        {
+          name: name.trim(),
+          email: email.trim(),
+          rating,
+          message: message.trim()
+        },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          timeout: 10000 // 10 second timeout
         }
       );
 
-      toast.dismiss();
-      toast.success(res?.data?.message || "Feedback submitted successfully");
+      if (res.data.success) {
+        toast.update(toastId, {
+          render: res?.data?.message || "Feedback submitted successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000
+        });
+
+        // ✅ Reset form
+        setSubmitted(true);
+        setName('');
+        setEmail('');
+        setRating(0);
+        setMessage('');
+        setErrors({});
+
+        // ✅ Hide success message after 3 seconds
+        setTimeout(() => setSubmitted(false), 3000);
+      }
+
     } catch (err: unknown) {
-      toast.dismiss();
-      const error = err as AxiosError<{ message: string }>;
-      toast.error(error?.response?.data?.message || "Something went wrong.");
+      const error = err as AxiosError<{ message?: string }>;
+      const errorMessage = error?.response?.data?.message || 
+                          error?.message || 
+                          "Failed to submit feedback. Please try again.";
+      
+      toast.update(toastId, {
+        render: errorMessage,
+        type: "error",
+        isLoading: false,
+        autoClose: 4000
+      });
+
+      console.error("Feedback submission error:", error);
+      console.error("Response data:", error?.response?.data);
+      console.error("Status code:", error?.response?.status);
+      console.error("Request config:", error?.config);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
       <div className="max-w-3xl mx-auto">
-
         {/* Header */}
         <div className="text-center mb-8 sm:mb-10">
           <MessageSquare className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-green-500" />
@@ -96,11 +173,18 @@ const Feedback: React.FC = () => {
                   </label>
                   <input
                     type="text"
+                    placeholder="Your Name"
                     required
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (errors.name) setErrors({ ...errors, name: '' });
+                    }}
+                    className={`mt-1 block w-full rounded-md border p-2 focus:outline-none focus:ring-2 ${
+                      errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-green-500'
+                    }`}
                   />
+                  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                 </div>
 
                 <div>
@@ -109,11 +193,18 @@ const Feedback: React.FC = () => {
                   </label>
                   <input
                     type="email"
+                    placeholder="Email Address"
                     required
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errors.email) setErrors({ ...errors, email: '' });
+                    }}
+                    className={`mt-1 block w-full rounded-md border p-2 focus:outline-none focus:ring-2 ${
+                      errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-green-500'
+                    }`}
                   />
+                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
               </div>
 
@@ -127,11 +218,14 @@ const Feedback: React.FC = () => {
                     <button
                       key={star}
                       type="button"
-                      onClick={() => setRating(star)}
+                      onClick={() => {
+                        setRating(star);
+                        if (errors.rating) setErrors({ ...errors, rating: '' });
+                      }}
                     >
                       <svg
-                        className={`h-7 w-7 sm:h-8 sm:w-8 ${
-                          star <= rating ? 'text-yellow-400' : 'text-gray-300'
+                        className={`h-7 w-7 sm:h-8 sm:w-8 cursor-pointer transition ${
+                          star <= rating ? 'text-yellow-400' : 'text-gray-300 hover:text-yellow-200'
                         }`}
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -141,9 +235,10 @@ const Feedback: React.FC = () => {
                     </button>
                   ))}
                   <span className="ml-2 text-sm text-gray-500">
-                    {rating > 0 ? `${rating}/5` : 'Select rating'}
+                    {rating > 0 ? `${rating}/5 stars` : 'Select rating'}
                   </span>
                 </div>
+                {errors.rating && <p className="text-red-500 text-sm mt-1">{errors.rating}</p>}
               </div>
 
               {/* Message */}
@@ -153,28 +248,47 @@ const Feedback: React.FC = () => {
                 </label>
                 <textarea
                   rows={4}
+                  placeholder="Your feedback (minimum 5 characters)..."
                   required
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    if (errors.message) setErrors({ ...errors, message: '' });
+                  }}
+                  className={`mt-1 block w-full rounded-md border p-2 focus:outline-none focus:ring-2 ${
+                    errors.message ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-green-500'
+                  }`}
                 />
+                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
               </div>
 
               {/* Button */}
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2 text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  disabled={isLoading}
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2 text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition"
                 >
-                  <Send className="h-4 w-4 mr-2" />
-                  Submit Feedback
+                  {isLoading ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4 mr-2" />
+                      Submit Feedback
+                    </>
+                  )}
                 </button>
               </div>
 
             </form>
           </div>
         </div>
-
       </div>
     </div>
   );
