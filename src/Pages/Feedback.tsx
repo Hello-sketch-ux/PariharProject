@@ -1,52 +1,121 @@
 import React, { useState } from 'react';
 import { MessageSquare, Send } from 'lucide-react';
 import { toast } from 'react-toastify';
-import axios, {AxiosError} from 'axios';
-
+import axios, { AxiosError } from 'axios';
 
 const Feedback: React.FC = () => {
-
-  const token = localStorage.getItem("token");
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [rating, setRating] = useState<number>(0);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const apiUrl = import.meta.env.VITE_API_URL;
+
+  // ✅ Client-side validation
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    if (!name.trim() || name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim() || !emailRegex.test(email)) {
+      newErrors.email = "Valid email is required";
+    }
+
+    if (!rating || rating < 1 || rating > 5) {
+      newErrors.rating = "Please select a rating (1-5)";
+    }
+
+    if (!message.trim() || message.trim().length < 5) {
+      newErrors.message = "Feedback must be at least 5 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would send this data to a backend
-    console.log({ name, email, rating, message });
-    setSubmitted(true);
 
-    toast.loading("Loading...");
+    // ✅ Validate form first
+    if (!validateForm()) {
+      toast.error("Please fix the errors below");
+      return;
+    }
+
+    setIsLoading(true);
+    const toastId = toast.loading("Submitting feedback...");
 
     try {
-      const res = await axios.post(`${apiUrl}/api/feedback`, {
-        name,
-        email,
-        rating,
-        message
-      },
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        toast.error("You must be logged in to submit feedback");
+        setIsLoading(false);
+        return;
+      }
+
+      const res = await axios.post(
+        `${apiUrl}/api/feedback`,
+        {
+          name: name.trim(),
+          email: email.trim(),
+          rating,
+          message: message.trim()
+        },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          timeout: 10000 // 10 second timeout
         }
       );
 
-      console.log(res);
+      if (res.data.success) {
+        toast.update(toastId, {
+          render: res?.data?.message || "Feedback submitted successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000
+        });
 
-      toast.dismiss();
-      toast.success(res?.data?.message || "Feedback is submitted successfully");
+        // ✅ Reset form
+        setSubmitted(true);
+        setName('');
+        setEmail('');
+        setRating(0);
+        setMessage('');
+        setErrors({});
 
-    }
-    catch (err: unknown) {
-      toast.dismiss();
-      const error = err as AxiosError<{ message: string }>;
-      toast.error(error?.response?.data?.message || "Something went wrong.");
+        // ✅ Hide success message after 3 seconds
+        setTimeout(() => setSubmitted(false), 3000);
+      }
+
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message?: string }>;
+      const errorMessage = error?.response?.data?.message || 
+                          error?.message || 
+                          "Failed to submit feedback. Please try again.";
+      
+      toast.update(toastId, {
+        render: errorMessage,
+        type: "error",
+        isLoading: false,
+        autoClose: 4000
+      });
+
+      console.error("Feedback submission error:", error);
+      console.error("Response data:", error?.response?.data);
+      console.error("Status code:", error?.response?.status);
+      console.error("Request config:", error?.config);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,151 +124,139 @@ const Feedback: React.FC = () => {
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
           <MessageSquare className="mx-auto h-12 w-12 text-green-500" />
-          <h2 className="mt-2 text-3xl font-bold text-gray-900">We Value Your Feedback</h2>
+          <h2 className="mt-2 text-3xl font-bold text-gray-900">
+            We Value Your Feedback
+          </h2>
           <p className="mt-2 text-lg text-gray-600">
             Your feedback helps us improve our products and services
           </p>
         </div>
 
-        {submitted ? (
+        {submitted && (
           <div className="rounded-md bg-green-50 p-4 mb-6">
             <div className="flex">
-              <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
+              <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-green-800">Feedback Submitted</h3>
-                <div className="mt-2 text-sm text-green-700">
-                  <p>Thank you for your feedback! We appreciate your input.</p>
-                </div>
+                <h3 className="text-sm font-medium text-green-800">
+                  Feedback Submitted
+                </h3>
+                <p className="mt-1 text-sm text-green-700">
+                  Thank you for your feedback!
+                </p>
               </div>
             </div>
           </div>
-        ) : null}
+        )}
 
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="px-4 py-5 sm:p-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Your Name
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      name="name"
-                      id="name"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
+        <div className="bg-white shadow sm:rounded-lg p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email Address
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  required
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (errors.name) setErrors({ ...errors, name: '' });
+                  }}
+                  className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${
+                    errors.name ? 'border-red-500 focus:ring-red-500' : 'focus:ring-green-500'
+                  }`}
+                />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Rate Your Experience
-                </label>
-                <div className="mt-1 flex items-center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setRating(star)}
-                      className="focus:outline-none"
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  required
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errors.email) setErrors({ ...errors, email: '' });
+                  }}
+                  className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${
+                    errors.email ? 'border-red-500 focus:ring-red-500' : 'focus:ring-green-500'
+                  }`}
+                />
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => {
+                      setRating(star);
+                      if (errors.rating) setErrors({ ...errors, rating: '' });
+                    }}
+                  >
+                    <svg
+                      className={`h-8 w-8 cursor-pointer transition ${
+                        star <= rating ? 'text-yellow-400' : 'text-gray-300 hover:text-yellow-200'
+                      }`}
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
                     >
-                      <svg
-                        className={`h-8 w-8 ${star <= rating ? 'text-yellow-400' : 'text-gray-300'
-                          }`}
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    </button>
-                  ))}
-                  <span className="ml-2 text-sm text-gray-500">
-                    {rating > 0 ? `${rating} out of 5 stars` : 'Select a rating'}
-                  </span>
-                </div>
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  </button>
+                ))}
+                <span className="ml-2 text-sm text-gray-500">
+                  {rating ? `${rating}/5 stars` : 'Select rating'}
+                </span>
               </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                  Your Feedback
-                </label>
-                <div className="mt-1">
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    required
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder="Please share your thoughts, suggestions, or concerns..."
-                  ></textarea>
-                </div>
-              </div>
-
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                >
-                  <Send className="mr-2 h-4 w-4" />
-                  Submit Feedback
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div className="mt-10 bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
-              Why Your Feedback Matters
-            </h3>
-          </div>
-          <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
-            <div className="prose prose-green max-w-none">
-              <p>
-                At Parihar India, we are committed to providing the best possible experience for our customers. Your feedback helps us:
-              </p>
-              <ul>
-                <li>Improve our products and services</li>
-                <li>Identify areas where we can do better</li>
-                <li>Understand your needs and preferences</li>
-                <li>Develop new features and offerings</li>
-              </ul>
-              <p>
-                We carefully review all feedback and use it to make meaningful improvements. Thank you for taking the time to share your thoughts with us!
-              </p>
+              {errors.rating && <p className="text-red-500 text-sm mt-1">{errors.rating}</p>}
             </div>
-          </div>
+
+            <div>
+              <textarea
+                rows={4}
+                placeholder="Your feedback (minimum 5 characters)..."
+                required
+                value={message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                  if (errors.message) setErrors({ ...errors, message: '' });
+                }}
+                className={`w-full border rounded-md p-2 focus:outline-none focus:ring-2 ${
+                  errors.message ? 'border-red-500 focus:ring-red-500' : 'focus:ring-green-500'
+                }`}
+              />
+              {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="flex items-center justify-center w-full bg-green-600 text-white px-4 py-3 rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+            >
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Submit Feedback
+                </>
+              )}
+            </button>
+
+          </form>
         </div>
       </div>
     </div>
