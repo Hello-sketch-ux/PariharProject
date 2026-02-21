@@ -41,9 +41,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         password: password.trim()
       };
 
-      console.log("Login request payload:", payload);
-      console.log("API URL:", apiUrl);
-
       const response = await fetch(`${apiUrl}/api/auth/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,10 +48,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       });
 
       const data = await response.json();
-      
-      console.log("Login response status:", response.status);
-      console.log("Login response headers:", response.headers);
-      console.log("Login response data:", data);
 
       if (response.ok && data.token) {
         localStorage.setItem("token", data.token);
