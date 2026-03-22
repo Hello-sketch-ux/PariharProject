@@ -1,34 +1,29 @@
 import React, { useState } from 'react';
 import { MessageSquare, Send } from 'lucide-react';
 import { toast } from 'react-toastify';
-import axios, {AxiosError} from 'axios';
-
+import axios, { AxiosError } from 'axios';
 
 const Feedback: React.FC = () => {
-
   const token = localStorage.getItem("token");
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [rating, setRating] = useState<number>(0);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would send this data to a backend
-    console.log({ name, email, rating, message });
     setSubmitted(true);
 
     toast.loading("Loading...");
 
     try {
-      const res = await axios.post(`${apiUrl}/api/feedback`, {
-        name,
-        email,
-        rating,
-        message
-      },
+      const res = await axios.post(
+        `${apiUrl}/api/feedback`,
+        { name, email, rating, message },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,13 +32,9 @@ const Feedback: React.FC = () => {
         }
       );
 
-      console.log(res);
-
       toast.dismiss();
-      toast.success(res?.data?.message || "Feedback is submitted successfully");
-
-    }
-    catch (err: unknown) {
+      toast.success(res?.data?.message || "Feedback submitted successfully");
+    } catch (err: unknown) {
       toast.dismiss();
       const error = err as AxiosError<{ message: string }>;
       toast.error(error?.response?.data?.message || "Something went wrong.");
@@ -51,89 +42,97 @@ const Feedback: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
       <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-10">
-          <MessageSquare className="mx-auto h-12 w-12 text-green-500" />
-          <h2 className="mt-2 text-3xl font-bold text-gray-900">We Value Your Feedback</h2>
-          <p className="mt-2 text-lg text-gray-600">
+
+        {/* Header */}
+        <div className="text-center mb-8 sm:mb-10">
+          <MessageSquare className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-green-500" />
+          <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-gray-900">
+            We Value Your Feedback
+          </h2>
+          <p className="mt-2 text-base sm:text-lg text-gray-600">
             Your feedback helps us improve our products and services
           </p>
         </div>
 
-        {submitted ? (
+        {/* Success Message */}
+        {submitted && (
           <div className="rounded-md bg-green-50 p-4 mb-6">
             <div className="flex">
-              <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
+              <svg
+                className="h-5 w-5 text-green-400 flex-shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-green-800">Feedback Submitted</h3>
-                <div className="mt-2 text-sm text-green-700">
-                  <p>Thank you for your feedback! We appreciate your input.</p>
-                </div>
+                <h3 className="text-sm font-medium text-green-800">
+                  Feedback Submitted
+                </h3>
+                <p className="mt-1 text-sm text-green-700">
+                  Thank you for your feedback! We appreciate your input.
+                </p>
               </div>
             </div>
           </div>
-        ) : null}
+        )}
 
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        {/* Form */}
+        <div className="bg-white shadow sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700">
                     Your Name
                   </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      name="name"
-                      id="name"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                  />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700">
                     Email Address
                   </label>
-                  <div className="mt-1">
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                  />
                 </div>
               </div>
 
+              {/* Rating */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Rate Your Experience
                 </label>
-                <div className="mt-1 flex items-center">
+                <div className="mt-2 flex items-center flex-wrap gap-1">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
                       onClick={() => setRating(star)}
-                      className="focus:outline-none"
                     >
                       <svg
-                        className={`h-8 w-8 ${star <= rating ? 'text-yellow-400' : 'text-gray-300'
-                          }`}
-                        xmlns="http://www.w3.org/2000/svg"
+                        className={`h-7 w-7 sm:h-8 sm:w-8 ${
+                          star <= rating ? 'text-yellow-400' : 'text-gray-300'
+                        }`}
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
@@ -142,65 +141,40 @@ const Feedback: React.FC = () => {
                     </button>
                   ))}
                   <span className="ml-2 text-sm text-gray-500">
-                    {rating > 0 ? `${rating} out of 5 stars` : 'Select a rating'}
+                    {rating > 0 ? `${rating}/5` : 'Select rating'}
                   </span>
                 </div>
               </div>
 
+              {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700">
                   Your Feedback
                 </label>
-                <div className="mt-1">
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    required
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder="Please share your thoughts, suggestions, or concerns..."
-                  ></textarea>
-                </div>
+                <textarea
+                  rows={4}
+                  required
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                />
               </div>
 
+              {/* Button */}
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2 text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                 >
-                  <Send className="mr-2 h-4 w-4" />
+                  <Send className="h-4 w-4 mr-2" />
                   Submit Feedback
                 </button>
               </div>
+
             </form>
           </div>
         </div>
 
-        <div className="mt-10 bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
-              Why Your Feedback Matters
-            </h3>
-          </div>
-          <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
-            <div className="prose prose-green max-w-none">
-              <p>
-                At Parihar India, we are committed to providing the best possible experience for our customers. Your feedback helps us:
-              </p>
-              <ul>
-                <li>Improve our products and services</li>
-                <li>Identify areas where we can do better</li>
-                <li>Understand your needs and preferences</li>
-                <li>Develop new features and offerings</li>
-              </ul>
-              <p>
-                We carefully review all feedback and use it to make meaningful improvements. Thank you for taking the time to share your thoughts with us!
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

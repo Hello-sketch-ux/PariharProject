@@ -5,7 +5,10 @@ import { useCart } from './context/CartContext';
 
 export default function Header() {
   const { state, dispatch } = useCart();
-  const itemCount = state.items.reduce((total, item) => total + item.quantity, 0);
+  const itemCount = state.items.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: 'SET_SEARCH_QUERY', payload: e.target.value });
@@ -14,9 +17,12 @@ export default function Header() {
   return (
     <header className="bg-black text-white">
       <div className="container mx-auto px-4 py-4">
-        <div className="flex gap-2">
-          {/* Desktop Search Bar */}
-          <div className="flex-1 relative">
+
+        {/* Top Section */}
+        <div className="flex flex-col md:flex-row gap-3 md:gap-2">
+
+          {/* Search Bar */}
+          <div className="relative flex-1">
             <input
               type="text"
               value={state.searchQuery}
@@ -29,22 +35,31 @@ export default function Header() {
             </div>
           </div>
 
-          <Link 
-            to="/checkout" 
-            className="bg-green-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-green-600 transition-colors"
+          {/* Cart Button */}
+          <Link
+            to="/checkout"
+            className="bg-green-500 text-white px-5 py-2 rounded-md flex items-center justify-center gap-2 hover:bg-green-600 transition-colors md:w-auto w-full"
           >
             <ShoppingCart size={20} />
-            Cart {itemCount > 0 && <span className="bg-white text-green-500 rounded-full px-2">{itemCount}</span>}
+            <span>Cart</span>
+            {itemCount > 0 && (
+              <span className="bg-white text-green-500 rounded-full px-2 text-sm">
+                {itemCount}
+              </span>
+            )}
           </Link>
         </div>
 
         {/* Mobile Navigation */}
-        <nav className="md:hidden flex justify-between items-center mt-4">
-          <Link to="/" className="text-white hover:text-orange-400 transition-colors text-sm">Home</Link>
-          <Link to="/shop" className="text-white hover:text-orange-400 transition-colors text-sm">Shop</Link>
-          <Link to="/about" className="text-white hover:text-orange-400 transition-colors text-sm">About</Link>
-          <Link to="/contact" className="text-white hover:text-orange-400 transition-colors text-sm">Contact Us</Link>
+        <nav className="md:hidden flex justify-around items-center mt-4 border-t border-gray-700 pt-3">
+          <Link to="/" className="text-sm hover:text-orange-400">Home</Link>
+          <Link to="/shop" className="text-sm hover:text-orange-400">Shop</Link>
+          <Link to="/about" className="text-sm hover:text-orange-400">About</Link>
+          <Link to="/contact" className="text-sm hover:text-orange-400">
+            Contact
+          </Link>
         </nav>
+
       </div>
     </header>
   );

@@ -76,7 +76,7 @@ export default function Home() {
       {/* Mobile View (< 650px) */}
       <div className="md:hidden">
         {/* Header */}
-        <div className="bg-white px-4 py-3 border border-black">
+        <div className="bg-white px-4 sm:px-6 py-3 border border-gray-300">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <MapPin size={18} />
@@ -87,12 +87,12 @@ export default function Home() {
         </div>
 
         {/* Carousel */}
-        <div className="relative bg-gray-100 p-4 mb-4 border border-black">
+        <div className="relative bg-gray-100 p-4 mb-4 border border-gray-300">
           <div className="mb-4">
-            <h3 className="text-xl font-semibold mb-2">{slides[currentSlide].title}</h3>
+            <h3 className="text-xl font-semibold mb-2 truncate">{slides[currentSlide].title}</h3>
             <Link
               to={slides[currentSlide].buttonLink}
-              className="inline-block bg-green-500 text-white px-6 py-2 rounded-full text-sm"
+              className="inline-block bg-green-500 text-white px-4 py-2 sm:px-6 sm:py-2 rounded-full text-sm"
             >
               {slides[currentSlide].buttonText}
             </Link>
@@ -101,7 +101,7 @@ export default function Home() {
             {slides.map((_, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full ${
+                className={`w-3 h-3 sm:w-2 sm:h-2 rounded-full ${
                   currentSlide === index ? 'bg-black' : 'bg-gray-300'
                 }`}
                 onClick={() => setCurrentSlide(index)}
@@ -111,7 +111,7 @@ export default function Home() {
         </div>
 
         {/* Flash Sale */}
-        <div className="px-4 mb-6 py-3 border border-black bg-white">
+        <div className="px-4 mb-6 py-3 border border-gray-200 bg-white">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold">Flash Sale</h3>
             <div className="flex gap-2 text-sm">
@@ -130,7 +130,7 @@ export default function Home() {
           <h3 className="text-lg font-semibold mb-4">FEATURED PRODUCTS</h3>
           <div className="space-y-4">
             {filteredProducts.map(product => (
-              <div key={product.id} className="bg-white rounded-lg overflow-hidden border border-black">
+              <div key={product.id} className="bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm">
                 <ProductCard {...product} />
               </div>
             ))}

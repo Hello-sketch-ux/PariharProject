@@ -70,12 +70,12 @@ export default function ProductCard({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105">
+    <div className="bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm transition-transform hover:scale-105">
       <div className="relative">
         <img
           src={imageUrls[currentImageIndex]}
           alt={title}
-          className="w-full h-64 object-cover"
+          className="w-full h-56 sm:h-48 object-cover"
         />
         {imageUrls.length > 1 && (
           <>
@@ -95,7 +95,7 @@ export default function ProductCard({
               {imageUrls.map((_, index) => (
                 <div 
                   key={index}
-                  className={`w-2 h-2 rounded-full ${
+                  className={`w-3 h-3 sm:w-2 sm:h-2 rounded-full ${
                     currentImageIndex === index ? 'bg-white' : 'bg-white/50'
                   }`}
                 />
@@ -110,14 +110,14 @@ export default function ProductCard({
             {category}
           </span>
         </div>
-        <h3 className="text-lg font-semibold mb-2">{title}</h3>
-        <p className="text-gray-600 mb-2 line-clamp-2">
+        <h3 className="text-lg sm:text-base font-semibold mb-2 truncate">{title}</h3>
+        <p className="text-gray-600 mb-2 line-clamp-2 text-sm sm:text-xs">
           {description}
         </p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-lg font-bold">₹{price}</span>
-            <span className="text-gray-400 line-through">₹{originalPrice}</span>
+            <span className="text-lg sm:text-base font-bold">₹{price}</span>
+            <span className="text-gray-400 line-through text-sm">₹{originalPrice}</span>
           </div>
           <div className="flex items-center gap-2">
             {quantity > 0 ? (
@@ -128,7 +128,7 @@ export default function ProductCard({
                 >
                   <Minus size={20} />
                 </button>
-                <span className="w-8 text-center font-semibold">{quantity}</span>
+                <span className="w-8 text-center font-semibold text-sm sm:text-xs">{quantity}</span>
                 <button 
                   onClick={handleIncrement}
                   className="bg-black text-white p-1 rounded-md hover:bg-gray-800 transition-colors"
@@ -139,9 +139,9 @@ export default function ProductCard({
             ) : (
               <button 
                 onClick={handleIncrement}
-                className="bg-black text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-gray-800 transition-colors"
+                className="bg-black text-white px-3 py-2 sm:px-2 sm:py-1 rounded-md flex items-center gap-1 sm:gap-1 hover:bg-gray-800 transition-colors text-sm sm:text-xs"
               >
-                <Plus size={20} />
+                <Plus size={16} />
                 Add to Cart
               </button>
             )}
@@ -151,3 +151,5 @@ export default function ProductCard({
     </div>
   );
 }
+
+
