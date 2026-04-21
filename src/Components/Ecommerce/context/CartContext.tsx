@@ -89,6 +89,12 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       };
 
     case 'CLEAR_CART':
+      // Clear localStorage when cart is cleared
+      try {
+        localStorage.removeItem('cart');
+      } catch (error) {
+        console.error('Error clearing cart from localStorage:', error);
+      }
       return {
         items: [],
         total: 0,
@@ -100,6 +106,24 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   }
 };
 
+// ------------------ Helper Functions for localStorage ------------------
+
+const getInitialState = (): CartState => {
+  try {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      return JSON.parse(savedCart);
+    }
+  } catch (error) {
+    console.error('Error loading cart from localStorage:', error);
+  }
+  return {
+    items: [],
+    total: 0,
+    searchQuery: ''
+  };
+};
+
 // ------------------ Provider ------------------
 
 interface CartProviderProps {
@@ -107,11 +131,16 @@ interface CartProviderProps {
 }
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, {
-    items: [],
-    total: 0,
-    searchQuery: ''
-  });
+  const [state, dispatch] = useReducer(cartReducer, null, getInitialState);
+
+  // Save to localStorage whenever state changes
+  React.useEffect(() => {
+    try {
+      localStorage.setItem('cart', JSON.stringify(state));
+    } catch (error) {
+      console.error('Error saving cart to localStorage:', error);
+    }
+  }, [state]);
 
   return (
     <CartContext.Provider value={{ state, dispatch }}>

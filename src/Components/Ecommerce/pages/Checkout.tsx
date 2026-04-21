@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ArrowLeft, MapPin, Plus, Minus } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,14 +11,34 @@ export default function Checkout() {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [shippingAddress, setShippingAddress] = useState({
-    name: "Raman Bajaj",
-    address: "1901, Malviya Nagar, New Delhi 110017",
-    phone: "+91 9XXXXXXXX",
-    email: "email@example.com",
+  // Load saved address from localStorage or use default
+  const [shippingAddress, setShippingAddress] = useState(() => {
+    try {
+      const savedAddress = localStorage.getItem('shippingAddress');
+      if (savedAddress) {
+        return JSON.parse(savedAddress);
+      }
+    } catch (error) {
+      console.error('Error loading address from localStorage:', error);
+    }
+    return {
+      name: "Raman Bajaj",
+      address: "1901, Malviya Nagar, New Delhi 110017",
+      phone: "+91 9XXXXXXXX",
+      email: "email@example.com",
+    };
   });
 
   const apiUrl = import.meta.env.VITE_API_URL;
+
+  // Save address to localStorage whenever it changes
+  React.useEffect(() => {
+    try {
+      localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
+    } catch (error) {
+      console.error('Error saving address to localStorage:', error);
+    }
+  }, [shippingAddress]);
 
   const handleUpdateQuantity = (id: number, qty: number) => {
     if (qty < 1) return;
@@ -109,38 +129,39 @@ export default function Checkout() {
         </div>
 
         <div className="bg-white p-4 mt-2">
-          <h2 className="font-semibold mb-3">Your Order</h2>
+          <h2 className="font-semibold mb-3">Your Order ({state.items.length} items)</h2>
           {state.items.map((item) => (
-            <div key={item.id} className="flex gap-3 mb-4">
+            <div key={item.id} className="flex gap-3 mb-4 pb-4 border-b last:border-0">
               <img
                 src={item.imageUrl}
                 className="w-16 h-16 rounded object-cover"
               />
               <div className="flex-1">
                 <p className="font-medium">{item.title}</p>
-                <p className="text-sm text-gray-500">₹{item.price}</p>
+                <p className="text-sm text-gray-500">₹{item.price} each</p>
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     onClick={() =>
                       handleUpdateQuantity(item.id, item.quantity - 1)
                     }
-                    className="border rounded p-1"
+                    className="border rounded p-1 hover:bg-gray-100"
                   >
                     <Minus size={14} />
                   </button>
-                  <span>{item.quantity}</span>
+                  <span className="w-8 text-center font-semibold">{item.quantity}</span>
                   <button
                     onClick={() =>
                       handleUpdateQuantity(item.id, item.quantity + 1)
                     }
-                    className="border rounded p-1"
+                    className="border rounded p-1 hover:bg-gray-100"
                   >
                     <Plus size={14} />
                   </button>
                 </div>
+                <p className="text-sm font-semibold mt-1">Subtotal: ₹{item.price * item.quantity}</p>
                 <button
                   onClick={() => handleRemoveItem(item.id)}
-                  className="text-red-500 text-xs mt-1"
+                  className="text-red-500 text-xs mt-1 hover:text-red-700"
                 >
                   Remove
                 </button>
@@ -207,30 +228,65 @@ export default function Checkout() {
                     <p className="font-medium">{item.title}</p>
                     <p>₹{item.price}</p>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() =>
+                        handleUpdateQuantity(item.id, item.quantity - 1)
+                      }
+                      className="border rounded p-1 hover:bg-gray-100"
+                    >
+                      <Minus size={16} />
+                    </button>
+                    <span className="w-8 text-center font-semibold">{item.quantity}</span>
+                    <button
+                      onClick={() =>
+                        handleUpdateQuantity(item.id, item.quantity + 1)
+                      }
+                      className="border rounded p-1 hover:bg-gray-100"
+                    >
+                      <Plus size={16} />
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => handleRemoveItem(item.id)}
+                    className="text-red-500 hover:text-red-700 text-sm"
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="bg-white p-6 rounded shadow h-fit">
-            <h2 className="font-semibold mb-4">Summary</h2>
-            <div className="flex justify-between">
-              <span>Total</span>
-              <span>₹{state.total}</span>
+            <h2 className="font-semibold mb-4">Order Summary</h2>
+            <div className="space-y-3 mb-4">
+              {state.items.map((item) => (
+                <div key={item.id} className="flex justify-between text-sm">
+                  <span>{item.title} x {item.quantity}</span>
+                  <span>₹{item.price * item.quantity}</span>
+                </div>
+              ))}
             </div>
-            <div className="flex justify-between text-green-600">
-              <span>Discount</span>
-              <span>-₹150</span>
-            </div>
-            <div className="flex justify-between font-semibold mt-3">
-              <span>To Pay</span>
-              <span>₹{state.total - 150}</span>
+            <div className="border-t pt-3">
+              <div className="flex justify-between">
+                <span>Total</span>
+                <span>₹{state.total}</span>
+              </div>
+              <div className="flex justify-between text-green-600">
+                <span>Discount</span>
+                <span>-₹150</span>
+              </div>
+              <div className="flex justify-between font-semibold mt-3">
+                <span>To Pay</span>
+                <span>₹{state.total - 150}</span>
+              </div>
             </div>
 
             <button
               onClick={handleCheckout}
               disabled={isLoading}
-              className="w-full mt-6 bg-black text-white py-3 rounded"
+              className="w-full mt-6 bg-black text-white py-3 rounded hover:bg-gray-800 transition-colors"
             >
               {isLoading ? "Processing..." : "Continue to Payment"}
             </button>
