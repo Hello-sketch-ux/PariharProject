@@ -9,7 +9,7 @@ const About: React.FC = () => {
         <p>
           Parihar India is on a mission to transform the public restroom
           experience with smart, sustainable hygiene solutions. From toilet seat
-          covers to real-time restroom tracking, we’re rethinking how hygiene
+          covers to real-time restroom tracking, we're rethinking how hygiene
           works in everyday life..
         </p>
       </div>
@@ -18,16 +18,12 @@ const About: React.FC = () => {
         <h2>What is Parihar?</h2>
         <p>
           <b>Parihar</b> is derived from Sanskrit, meaning 'the removal of
-          difficulty.' Inspired by the ancient wisdom of <i>Naga Mudra</i> — a
-          gesture that encourages clarity and insight — Parihar India applies
-          this philosophy to a very modern challenge: public restroom hygiene..
+          difficulty.' Inspired by the ancient wisdom of <i>Naga Mudra</i> - a
+          gesture that encourages clarity and insight - Parihar India applies
+          this philosophy to a very modern challenge: public restroom hygiene...
         </p>
         <p>
-          Our eco-friendly toilet seat covers are designed for a universal fit
-          and dissolve in water, providing a hygienic, safe, and hassle-free
-          experience. Backed by research and driven by sustainability, our
-          innovation eliminates the risks of cross-contamination and poor
-          sanitation.
+          Our eco-friendly toilet seat covers are designed for a universal fit, ensuring easy usability across different restroom setups. Made with high-quality, sustainable materials, they provide a hygienic, safe, and hassle-free experience. Backed by research and driven by sustainability, our innovation helps reduce the risks of cross-contamination while promoting better public sanitation standards.
         </p>
       </div>
 
@@ -46,23 +42,23 @@ const About: React.FC = () => {
         <p>Parihar India proudly aligns with multiple UN Sustainable Development Goals:</p>
         <ul>
           <li>
-            <b>Good Health & Well-being</b> – Prevents UTIs, infections, and
+            <b>Good Health & Well-being</b> - Prevents UTIs, infections, and
             cross-contamination
           </li>
           <li>
-            <b>Clean Water & Sanitation</b> – Promotes hygienic practices in
+            <b>Clean Water & Sanitation</b> - Promotes hygienic practices in
             public restrooms
           </li>
           <li>
-            <b>Innovation & Infrastructure</b> – Builds smart solutions in the
+            <b>Innovation & Infrastructure</b> - Builds smart solutions in the
             sanitation industry
           </li>
           <li>
-            <b>Responsible Consumption</b> – Eco-friendly materials and minimal
+            <b>Responsible Consumption</b> - Eco-friendly materials and minimal
             waste
           </li>
           <li>
-            <b>Climate Action</b> – Reducing environmental impact through
+            <b>Climate Action</b> - Reducing environmental impact through
             sustainable design
           </li>
         </ul>
