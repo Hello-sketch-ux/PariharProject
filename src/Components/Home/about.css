@@ -1,5 +1,4 @@
 .about-wrapper {
-
   padding: 60px 20px;
   background-color: #f2fefc;
   color: #10b081;
@@ -52,6 +51,7 @@
 .about-footer {
   text-align: center;
   margin-top: 60px;
+  padding: 0 20px;
 }
 
 .about-footer h3 {
@@ -63,6 +63,9 @@
 .about-footer p {
   font-size: 1.1rem;
   margin-bottom: 24px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
   color: #333;
 }
 
@@ -74,8 +77,235 @@
   border-radius: 8px;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  display: inline-block;
 }
 
 .about-button:hover {
-  background-color: #10b081;
+  background-color: #0d9970;
+}
+
+.achievements-section {
+  max-width: 1000px;
+  margin: 80px auto 40px;
+  padding: 0 20px;
+  text-align: center;
+}
+.achievements-section h2 {
+  font-size: 2rem;
+  color: #10b081;
+  margin-bottom: 8px;
+}
+.achievements-subtitle {
+  color: #555;
+  font-size: 1.05rem;
+  margin: 0 auto 36px;
+  max-width: 500px;
+}
+.achievements-grid {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.achievement-card {
+  background: #ffffff;
+  border: 1px solid #d7f3ea;
+  border-radius: 16px;
+  padding: 32px 28px;
+  width: 390px;
+  max-width: 100%;
+  text-align: left;
+  box-shadow: 0 4px 16px rgba(16, 176, 129, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  box-sizing: border-box;
+}
+.achievement-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(16, 176, 129, 0.18);
+}
+.achievement-icon {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+.achievement-tag {
+  display: inline-block;
+  background: #e3fbf3;
+  color: #10b081;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.achievement-card h3 {
+  color: #0d9970;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+.achievement-card p {
+  color: #444;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+/* TEAM SECTION */
+.team-section {
+  max-width: 1000px;
+  margin: 80px auto 40px;
+  padding: 0 20px;
+  text-align: center;
+}
+.team-section h2 {
+  font-size: 2rem;
+  color: #10b081;
+  margin-bottom: 8px;
+}
+.team-subtitle {
+  color: #555;
+  font-size: 1.05rem;
+  margin-bottom: 40px;
+}
+.founder-card {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  background: #ffffff;
+  border: 1px solid #d7f3ea;
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 650px;
+  width: 100%;
+  margin: 0 auto 50px;
+  box-shadow: 0 6px 20px rgba(16, 176, 129, 0.1);
+  text-align: left;
+  box-sizing: border-box;
+}
+.founder-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #e3fbf3;
+  flex-shrink: 0;
+}
+.founder-details h3 {
+  font-size: 1.4rem;
+  color: #000000;
+}
+.founder-role {
+  display: inline-block;
+  color: #000000;
+  font-weight: 600;
+}
+.founder-contact {
+  font-size: 0.98rem;
+  color: #444;
+  margin: 2px 0;
+  word-break: break-word;
+  display: flex;
+  align-items: center;
+}
+.founder-contact a {
+  color: #444;
+  text-decoration: none;
+}
+.founder-contact a:hover {
+  text-decoration: underline;
+}
+.team-grid {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.team-card {
+  background: #ffffff;
+  border: 1px solid #d7f3ea;
+  border-radius: 16px;
+  padding: 24px;
+  width: 200px;
+  max-width: 100%;
+  box-shadow: 0 4px 14px rgba(16, 176, 129, 0.08);
+  transition: transform 0.25s ease;
+  box-sizing: border-box;
+}
+.team-card:hover {
+  transform: translateY(-5px);
+}
+.team-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e3fbf3;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #10b081;
+  background: #f2fefc;
+}
+.team-card h4 {
+  color: #000000;
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+.team-role {
+  color: #10b081;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .about-intro h1 {
+    font-size: 2.1rem;
+  }
+  .about-intro p {
+    font-size: 1.05rem;
+  }
+  .about-section h2,
+  .achievements-section h2,
+  .team-section h2 {
+    font-size: 1.6rem;
+  }
+  .achievement-card {
+    width: 100%;
+  }
+  .founder-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px;
+  }
+  .founder-details {
+    text-align: center;
+  }
+  .team-card {
+    width: 45%;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-wrapper {
+    padding: 40px 16px;
+  }
+  .about-intro h1 {
+    font-size: 1.8rem;
+  }
+  .achievements-grid,
+  .team-grid {
+    gap: 20px;
+  }
+  .team-card {
+    width: 100%;
+  }
+  .founder-photo {
+    width: 110px;
+    height: 110px;
+  }
 }

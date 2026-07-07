@@ -1,5 +1,9 @@
 import React from "react";
 import "./about.css";
+import ceo from "./assets/ceo.jpeg";
+import core2 from "./assets/core2.jpeg";
+import core3 from "./assets/core3.jpeg";
+import core1 from "./assets/core1.png";
 
 const About: React.FC = () => {
   return (
@@ -82,7 +86,7 @@ const About: React.FC = () => {
       <div className="about-footer">
         <h3>Join the Hygiene Revolution</h3>
         <p>
-          Parihar India is more than a product — it’s a movement. Towards safer
+          Parihar India is more than a product - it's a movement. Towards safer
           restrooms, smarter hygiene, and a cleaner planet.
         </p>
         <a
@@ -92,6 +96,89 @@ const About: React.FC = () => {
         >
           Explore More
         </a>
+      </div>
+      <div >
+
+      </div>
+      {/* ACHIEVEMENTS SECTION */}
+      <div className="achievements-section">
+        <h2>Our Achievements</h2>
+        <p className="achievements-subtitle">
+          Recognized & Backed By India's Innovation Leaders.
+        </p>
+        <div className="achievements-grid">
+          <div className="achievement-card">
+            <div className="achievement-icon"></div>
+            <span className="achievement-tag">Funding</span>
+            <h3>Startup India Seed Fund</h3>
+            <p>
+              Recognized under the Startup India Seed Fund Scheme, Parihar India's non-porous hygiene barrier was rigorously evaluated and backed by a government initiative a strong signal that the market urgently needs a genuine, scalable solution to public restroom hygiene.
+            </p>
+          </div>
+          <div className="achievement-card">
+            <div className="achievement-icon"></div>
+            <span className="achievement-tag">Funding</span>
+            <h3>NASSCOM Foundation Recognition</h3>
+            <p>
+              Supported by the NASSCOM Foundation, this recognition reflects industry validation of our tech-integrated approach reinforcing our belief that safe, uncompromising hygiene can become the national standard through automated manufacturing and a connected digital ecosystem.
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* OUR TEAM SECTION */}
+      <div className="team-section">
+        <h2>Our Team</h2>
+        <p className="team-subtitle">
+          The people building the hygiene revolution.
+        </p>
+
+        <div className="founder-card">
+          <img
+            src={ceo}
+            alt="Founder & CEO"
+            className="founder-photo"
+          />
+          <div className="founder-details">
+            <h3>Aryan Tiwari</h3>
+            <span className="founder-role">Founder & CEO</span>
+            <p className="founder-contact">
+              aryantiwari13455@gmail.com
+            </p>
+            <p className="founder-contact">
+              <a href="tel:+91 70119 89792">+91 70119 89792</a>
+            </p>
+          </div>
+        </div>
+
+        <div className="team-grid">
+          <div className="team-card">
+            <img
+              src={core2}
+              alt="Tech Team Member 1"
+              className="team-photo"
+            />
+            <h4>Mohit Morya</h4>
+            <span className="team-role">Core Intern</span>
+          </div>
+          <div className="team-card">
+            <img
+              src={core1}
+              alt="Core Member"
+              className="team-photo"
+            />
+            <h4>Aaditya Aggarwal</h4>
+            <span className="team-role">Core Intern</span>
+          </div>
+          <div className="team-card">
+            <img
+              src={core3}
+              alt="Core Member"
+              className="team-photo"
+            />
+            <h4>Anushka Choudhary</h4>
+            <span className="team-role">Core Intern</span>
+          </div>
+        </div>
       </div>
     </section>
   );
